@@ -1,0 +1,71 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id                 String   @id @default(uuid())
+  hashedPassword     String
+  email              String   @unique
+  firstName          String
+  lastName           String
+  phoneNumber        String
+
+  bookings           Booking[]
+  rooms              Room[]
+}
+
+model Room {
+  id                 String   @id @default(uuid())
+  caption            String
+  description        String
+  pricePerNight      Float
+  photosUrls         String
+
+  location           Location @relation(fields: [locationId], references: [id])
+  locationId         String
+  user               User @relation(fields: [userId], references: [id])
+  userId             String
+
+  bookings           Booking[]
+  offers             Offer[]
+}
+
+model Booking {
+  id                 String   @id @default(uuid())
+  startDate          DateTime
+  endDate            DateTime
+  totalPrice         Float
+
+  user               User     @relation(fields: [userId], references: [id])
+  userId             String
+  room               Room     @relation(fields: [roomId], references: [id])
+  roomId             String
+}
+
+model Offer {
+  id                 String   @id @default(uuid())
+  startDate          DateTime
+  endDate            DateTime
+
+  room               Room     @relation(fields: [roomId], references: [id])
+  roomId             String
+}
+
+model Location {
+  id                 String   @id @default(uuid())
+  name               String
+  city               String
+  zip                String
+  street             String
+  country            String
+
+  rooms              Room[]
+}
