@@ -41,10 +41,13 @@ export const createSingle = async ( data: RoomCreate ): Promise<Result<Room | nu
 }
 
 export const getAll = async(args: Dict<any>): Promise<Result<Room[], Error>> => {
+    // TODO add startDate and endDate filter (offer in range, no bookings)
     try {
         let query = {
             where: {
                 locationId: args.location != null ? args.location : undefined,
+                offers: args.startDate != null ? {some: {}} : undefined,
+                bookings: args.startDate != null ? {none: {}} : undefined,
             },
             include:
                 {
@@ -65,6 +68,10 @@ export const getAll = async(args: Dict<any>): Promise<Result<Room[], Error>> => 
             } else if (args.sort === "priceAsc") {
                 query.orderBy = {pricePerNight: 'asc'}
             }
+        }
+        if (args.startDate && args.endDate) {
+            query.where.offers!.some = {startDate: {lte: args.startDate}, endDate: {gte: args.endDate}}
+            query.where.bookings!.none = {startDate: {gte: args.startDate}, endDate: {lte: args.endDate}}
         }
 
         const rooms = await prisma.room.findMany(query);
@@ -102,7 +109,7 @@ export const getSingleById = async(id: string, offers?:boolean): Promise<Result<
                 }
             }
         }
-//dsfsdf
+
         const room = await prisma.room.findUnique(query);
         return Result.ok(room);
     } catch (error) {
