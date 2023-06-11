@@ -1,11 +1,73 @@
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime";
 import { Result } from '@badrap/result';
-import { Room } from "../models";
+import {Room, RoomCreate} from "../models";
 import prisma from "../client";
+import Dict = NodeJS.Dict;
 
-export const getAll = async(): Promise<Result<Room[], Error>> => {
+
+export const createSingle = async ( data: RoomCreate ): Promise<Result<Room | null, Error>> => {
     try {
-        const rooms = await prisma.room.findMany();
+        const room = await prisma.room.create({
+            data: {
+                description: data.description,
+                pricePerNight: data.pricePerNight,
+                photosUrls: data.photosUrls,
+                caption: data.caption,
+                user: {
+                    connect: {
+                        //id: data.user.id,
+                        id: data.userId,
+                    },
+                },
+                location: {
+                    connect: {
+                        //id: data.location.id,
+                        id: data.locationId,
+                    },
+                },
+            },
+            include: {
+                user: true,
+                location: true,
+            },
+        });
+        return Result.ok(room);
+    } catch (error) {
+        if (error instanceof PrismaClientKnownRequestError) {
+            return Result.err(error);
+        }
+        return Result.err(new Error(`Unknown error: ${error}`));
+    }
+}
+
+export const getAll = async(args: Dict<any>): Promise<Result<Room[], Error>> => {
+    try {
+        let query = {
+            where: {
+                locationId: args.location != null ? args.location : undefined,
+            },
+            include:
+                {
+                    user: {
+                        select: {
+                            firstName: true,
+                            lastName: true,
+                            id: true,
+                        }
+                    },
+                    location: true,
+                },
+            orderBy: {}
+        }
+        if (args.sort) {
+            if (args.sort === "priceDesc") {
+                query.orderBy = {pricePerNight: 'desc'}
+            } else if (args.sort === "priceAsc") {
+                query.orderBy = {pricePerNight: 'asc'}
+            }
+        }
+
+        const rooms = await prisma.room.findMany(query);
         return Result.ok(rooms);
     } catch (error) {
         if (error instanceof PrismaClientKnownRequestError) {
@@ -17,7 +79,18 @@ export const getAll = async(): Promise<Result<Room[], Error>> => {
 export const getSingleById = async(id: string): Promise<Result<Room | null, Error>> => {
     try {
         const room = await prisma.room.findUnique({
-            where: { id },
+            where: { id: id },
+            include:
+                {
+                    user: {
+                        select: {
+                            firstName: true,
+                            lastName: true,
+                            id: true,
+                        }
+                    },
+                    location: true
+                }
         });
         return Result.ok(room);
     } catch (error) {

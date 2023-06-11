@@ -7,10 +7,14 @@ import { Router } from "express";
 
 const userRouter = Router();
 
-userRouter.post("/register", validation({ body: UserRegisterSchema }), async (req, res) => {
+userRouter.post("/register", async (req, res) => {
+    let data = req.body;
     const passwordHash = await hash(req.body.hashedPassword);
+    data.hashedPassword = passwordHash;
+
     const user = await usersRepository.createSingle(
-        { ...req.body, hashedPassword: passwordHash });
+        { ...req.body });
+        //{...data});
     if (user.isErr) {
         return resultError(500, res, user.error.message);
     }
