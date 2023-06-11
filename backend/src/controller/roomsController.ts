@@ -29,6 +29,12 @@ roomsRouter.get("/", async (req, res) => {
     if (req.query.sort) {
         args.sort = req.query.sort.toString();
     }
+    if (req.query.startDate) {
+        args.startDate = req.query.startDate.toString();
+    }
+    if (req.query.endDate) {
+        args.endDate = req.query.endDate.toString();
+    }
     /*if (req.query.guests) {
         args.push({guests: req.query.guests});
     }*/
