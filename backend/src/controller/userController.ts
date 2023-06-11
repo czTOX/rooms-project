@@ -7,14 +7,20 @@ import { Router } from "express";
 
 const userRouter = Router();
 
-userRouter.post("/register", async (req, res) => {
-    let data = req.body;
+userRouter.get("/", async(req, res) =>{
+    if(!req.session.user){
+        return resultError(401, res, "Unauthorized");
+    }
+    const user= await usersRepository.getSingleByEmail(req.session.user.email!);
+    if (user.isErr) {
+        return resultError(500, res, user.error.message);
+    }
+    return resultOk(user.value, res,`Logged with id: ${user.value?.id}`);
+})
+userRouter.post("/register", validation({ body: UserRegisterSchema }), async (req, res) => {
     const passwordHash = await hash(req.body.hashedPassword);
-    data.hashedPassword = passwordHash;
-
     const user = await usersRepository.createSingle(
-        { ...req.body });
-        //{...data});
+        { ...req.body, hashedPassword: passwordHash });
     if (user.isErr) {
         return resultError(500, res, user.error.message);
     }
@@ -30,12 +36,18 @@ userRouter.post("/login", validation({ body: UserLoginSchema }), async (req, res
     if(!verification) {
         return resultError(401, res, "Wrong password");
     }
-    console.log("logged");
+    const data = user.value;
+    req.session.user = {
+        firstName: data!.firstName,
+        lastName: data!.lastName,
+        email: data!.email,
+        phoneNumber: data!.phoneNumber}
     return resultOk(user.value, res,`Logged with id: ${user.value?.id}`);
 });
 
 userRouter.post("/logout", async (req, res) => {
-
+    req.session.destroy(() => {});
+    return resultOk("", res,`Logged out`);
 });
 
 userRouter.get("/:userId/rooms",  async (req, res) => {
