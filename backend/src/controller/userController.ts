@@ -38,4 +38,14 @@ userRouter.post("/logout", async (req, res) => {
 
 });
 
+userRouter.get("/:userId/rooms",  async (req, res) => {
+    const userId = req.params.userId
+    const user = await usersRepository.getUserWithRooms(userId)
+    if (user.isErr) {
+        return resultError(500, res, user.error.message);
+    }
+
+    return resultOk(user.value, res, `Listed user with rooms with ID ${userId}`)
+});
+
 export default userRouter;

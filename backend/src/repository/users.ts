@@ -28,3 +28,29 @@ export const getSingleByEmail = async(email: string): Promise<Result<User | null
         return Result.err(new Error(`Unknown error: ${error}`));
     }
 }
+
+export const getUserWithRooms = async(id: string): Promise<Result<User | null, Error>> => {
+    try {
+        const user = await prisma.user.findFirst(
+            {
+                where: { id: id },
+                include: {
+                    rooms: {
+                        include: {
+                            location: true
+                        }
+                    }
+                }
+            });
+
+        if(!user){
+            return Result.err(new Error("User does not exist"));
+        }
+        return Result.ok(user);
+    } catch (error) {
+        if (error instanceof PrismaClientKnownRequestError) {
+            return Result.err(error);
+        }
+        return Result.err(new Error(`Unknown error: ${error}`));
+    }
+}
