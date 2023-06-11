@@ -1,8 +1,8 @@
 import { resultOk, resultError } from '../middleware/resultHandler';
-import {RoomSchema, RoomCreateSchema, UserSchema, LocationSchema} from "../models";
+import {RoomCreateSchema, OfferPostSchema, OfferCreateSchema} from "../models";
 import { validation } from "../middleware/validation";
-import {roomsRepository, usersRepository} from "../repository";
-import {json, Router} from "express";
+import {roomsRepository, offersRepository} from "../repository";
+import {Router, Request} from "express";
 
 const roomsRouter = Router();
 
@@ -40,10 +40,6 @@ roomsRouter.get("/", async (req, res) => {
     return resultOk(rooms.value, res, `Listed ${rooms.value.length} rooms`)
 });
 
-roomsRouter.get("/:roomId/offers", async (req, res) => {
-
-});
-
 roomsRouter.post("/", validation({body: RoomCreateSchema}), async (req, res) => {
     // TODO: auth user and get his ID
     const room = await roomsRepository.createSingle(
@@ -54,8 +50,29 @@ roomsRouter.post("/", validation({body: RoomCreateSchema}), async (req, res) => 
     return resultOk(room.value, res,`Created room with id: ${room.value?.id}`);
 });
 
-roomsRouter.post("/:roomId/offers", async (req, res) => {
+roomsRouter.get("/:roomId/offers", async (req, res) => {
+    const roomId = req.params.roomId
+    const room = await roomsRepository.getSingleById(roomId, true)
+    if (room.isErr) {
+        return resultError(500, res, room.error.message);
+    }
+    if (room.value === null) {
+        return resultError(404, res, `Room with ID ${roomId} doesn't exist`)
+    }
+    return resultOk(room.value, res, `Listed room with id ${roomId}`)
+});
 
+roomsRouter.post("/:roomId/offers", validation({body: OfferPostSchema}), async (req:Request, res) => {
+    // TODO AUTH and check if user is owner of room
+    const roomId = req.params.roomId
+    let data = req.body;
+    data.roomId = roomId;
+    const offer = await offersRepository.createSingle(
+        { ...data});
+    if (offer.isErr) {
+        return resultError(500, res, offer.error.message);
+    }
+    return resultOk(offer.value, res,`Created offer for room. Offer id is: ${offer.value?.id}`);
 });
 
 export default roomsRouter;

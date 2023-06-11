@@ -76,9 +76,9 @@ export const getAll = async(args: Dict<any>): Promise<Result<Room[], Error>> => 
         return Result.err(new Error(`Unknown error: ${error}`));
     }
 };
-export const getSingleById = async(id: string): Promise<Result<Room | null, Error>> => {
+export const getSingleById = async(id: string, offers?:boolean): Promise<Result<Room | null, Error>> => {
     try {
-        const room = await prisma.room.findUnique({
+        let query = {
             where: { id: id },
             include:
                 {
@@ -89,9 +89,21 @@ export const getSingleById = async(id: string): Promise<Result<Room | null, Erro
                             id: true,
                         }
                     },
-                    location: true
+                    location: true,
+                    offers: false
                 }
-        });
+        }
+        if (offers) {
+            query = {
+                ...query,
+                include: {
+                    ...query.include,
+                    offers: true,
+                }
+            }
+        }
+//dsfsdf
+        const room = await prisma.room.findUnique(query);
         return Result.ok(room);
     } catch (error) {
         if (error instanceof PrismaClientKnownRequestError) {

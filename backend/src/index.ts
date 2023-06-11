@@ -1,7 +1,7 @@
 import express from "express";
 import cors from "cors";
 import * as dotenv from "dotenv";
-import { userController, roomsController } from "./controller";
+import { userController, roomsController, locationsController } from "./controller";
 
 dotenv.config();
 const api = express();
@@ -12,5 +12,6 @@ api.use(cors());
 
 api.use("/users", userController);
 api.use("/rooms", roomsController);
+api.use("/locations", locationsController);
 
 api.listen(port, () => console.log(`Listening on port ${port}`));
