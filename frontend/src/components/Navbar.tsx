@@ -1,11 +1,11 @@
 import { FC } from 'react';
 import { Link } from 'react-router-dom';
 import { logedInAtom } from '../state/atoms';
-import { useRecoilValue } from 'recoil';
+import { useRecoilState } from 'recoil';
 
 const Navbar: FC = () => {
 
-  const logedIn = useRecoilValue(logedInAtom);
+  const [logedIn, setLogedIn] = useRecoilState(logedInAtom);
 
   return (
     <nav className='navbar'>
@@ -19,7 +19,12 @@ const Navbar: FC = () => {
           </> : <></>
         }
       </div>
-      <Link to='/login' className='navbar__login navbar__button text-regular'>Login</Link>
+      {logedIn ? 
+        <button className='navbar__login navbar__button text-regular' onClick={() => setLogedIn(false)}>
+          Logout
+        </button> : 
+        <Link to='/login' className='navbar__login navbar__button text-regular'>Login</Link>
+      }
     </nav>
   )
 }

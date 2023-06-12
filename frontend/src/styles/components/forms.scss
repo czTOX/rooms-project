@@ -1,0 +1,57 @@
+//FORMS
+
+.header-divider {
+    border-radius: 5px;
+    background: $main-color;
+    width: 250px;
+    height: 10px;
+    margin: auto;
+    margin-top: 10px;
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    margin-top: 3.5em;
+    max-width: 350px;
+    width: 100%;
+}
+
+.form-textInput {
+    width: 100%;
+
+    &:not(:first-child) {
+        margin-top: 1em;
+    }
+}
+
+
+.form__link {
+    font-size: 14px;
+    text-decoration: none;
+    color: black;
+    margin-top: .8em;
+    
+    &:hover {
+        text-decoration: underline;
+    }
+}
+
+.form-submit {
+    background-color: $main-color !important;
+    width: 66%;
+    margin: auto !important;
+    margin-top: 3em !important;
+    border-radius: 20px !important;
+    height: 3em;
+}
+
+.form-button {
+    background-color: $main-color !important;
+    width: 15%;
+    margin-top: 3em !important;
+    border-radius: 20px !important;
+    height: 3em;
+    margin-right: auto !important;
+    margin-left: 0 !important;
+}

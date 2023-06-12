@@ -26,7 +26,7 @@ export default function App() {
           <Route path="/my-rooms" element={<MyRoomsPage />} />
           <Route path="/rooms">
             <Route path="/rooms/:id" element={<RoomDetailPage />} />
-            <Route path="/rooms/new-room" element={<NewRoomPage />} />
+            <Route path="/rooms/new" element={<NewRoomPage />} />
           </Route>
         </Routes>
       </main>

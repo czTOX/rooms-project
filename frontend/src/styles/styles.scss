@@ -5,6 +5,7 @@ $main-color: #E95B5B;
 //------- IMPORTS -------
 
 @import 'components/navbar.scss';
+@import 'components/forms.scss';
 
 //------- FONTS -------
 
@@ -29,4 +30,272 @@ $main-color: #E95B5B;
 
 body {
   margin: 0;
+}
+
+.main-container {
+  margin-top: 60px;
+  margin-left: 120px;
+  margin-right: 120px;
+}
+
+.only-block__container {
+  width: 100%;
+  height: calc(100vh - 60px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.only-block {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border: 1px solid #707070;
+  border-radius: 60px;
+  width: 500px;
+  padding: 30px 0;
+
+  h1 {
+    margin: 0;
+  }
+}
+
+.header-container {
+  margin-top: 170px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  h1 {
+    font-size: 54px;
+    margin: 0;
+  }
+}
+
+.page-header__divider {
+  width: 120px;
+  height: 10px;
+  background: $main-color;
+}
+
+.searchBox {
+  display: flex;
+  align-items: center;
+}
+
+.filter {
+  border: 1px solid black;
+  border-radius: 20px;
+  display: flex;
+  flex-direction: row;
+  padding: 10px;
+  margin-top: 45px;
+  column-gap: 1em;
+}
+
+.filter-submit {
+  margin-left: auto !important;
+  background-color: $main-color !important;
+}
+
+.sort {
+  border: 1px solid black;
+  border-radius: 20px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-top: 1em;
+  height: 50px;
+  width: fit-content;
+}
+
+.sort__title {
+  margin-left: 20px;
+  margin-right: 20px;
+}
+
+.sort__item {
+  background: white;
+  border: none;
+  padding: 0 25px;
+  font-size: 16px;
+  height: 100%;
+
+  &:hover {
+    background: $main-color;
+    color: white;
+    cursor: pointer;
+  }
+
+  &:last-child {
+    border-top-right-radius: 20px;
+    border-bottom-right-radius: 20px;
+  }
+}
+
+.sort__item--selected {
+  background: $main-color;
+  color: white;
+}
+
+.content-divider {
+  width: 100%;
+  background: $main-color;
+  height: 5px;
+  margin-top: 1em;
+}
+
+.rooms {
+  display: flex;
+  flex-direction: column;
+  margin-top: 3em;
+  row-gap: 1em;
+  margin-bottom: 50px;
+}
+
+.room-view {
+  display: flex;
+  flex-direction: row;
+  padding: 5px;
+  border: 1px solid black;
+}
+
+.room-view__photo {
+  width: 344px;
+  height: 230px;
+}
+
+.room-view__left {
+  margin-left: 100px;
+  
+}
+
+.room-view__title {
+  font-size: 26px;
+}
+
+.room-view__right {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: end;
+  margin: 30px;
+  margin-right: 5em;
+  margin-left: auto;
+}
+
+.room-view__price {
+  font-size: 36px;
+  color: $main-color;
+}
+
+.room-view__button {
+  background-color: $main-color !important;
+  width: 15em;
+  height: 3em !important;
+  
+  a {
+    text-decoration: none;
+    color: white;
+  }
+}
+
+.bookings-history {
+  font-size: 20px;
+  margin: 0;
+  margin-top: 5em;
+
+  h2 {
+    margin: 0;
+  }
+
+  .content-divider {
+    margin-top: 5px;
+  }
+}
+
+.header__button {
+  height: 4.5em !important;
+  width: 10em;
+  background-color: $main-color !important;
+
+  a {
+    text-decoration: none;
+    color: white;
+  }
+}
+
+.room-content {
+  margin-top: 70px;
+  display: flex;
+  flex-direction: row;
+}
+
+.room-carousel {
+  width: 900px;
+  height: 600px;
+}
+
+.room-info {
+  margin-left: 10em;
+  margin-top: 2em;
+  width: 40%;
+}
+
+.book-room__button {
+  height: 4.5em !important;
+  width: 15em;
+  background-color: $main-color !important;
+  margin-left: auto !important;
+}
+
+.room-info__basic {
+  display: flex;
+  flex-direction: column;
+  row-gap: .7em;
+
+  span {
+    font-size: 18px;
+  }
+}
+
+.room-info__order-summary {
+  margin-top: 30%;
+  display: flex;
+  flex-direction: column;
+  justify-content: right;
+  row-gap: 2em;
+}
+
+.room-info__order-summary__price {
+  font-size: 20px;
+}
+
+.DatePicker {
+  &:not(:first-child) {
+    margin-left: 1em;
+  }
+}
+
+.new-room-form {
+  margin-top: 4em;
+  display: flex;
+  flex-direction: column;
+  justify-content: left;
+  margin-bottom: 50px;
+}
+
+.form-photos {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  column-gap: 2em;
+  row-gap: 2em;
+  justify-content: left;
+  margin-top: 2em;
+}
+
+.new-room__photo-preview {
+  width: 344px;
+  height: 230px;
 }
