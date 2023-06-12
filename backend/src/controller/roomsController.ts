@@ -1,13 +1,12 @@
 import { resultOk, resultError } from '../middleware/resultHandler';
-import {RoomCreateSchema, OfferPostSchema, OfferCreateSchema} from "../models";
+import {OfferPostSchema,  RoomPostSchema} from "../models";
 import { validation } from "../middleware/validation";
-import {roomsRepository, offersRepository} from "../repository";
+import {roomsRepository, offersRepository, usersRepository} from "../repository";
 import {Router, Request} from "express";
+import {getSingleById} from "../repository/rooms";
+import {number} from "zod";
 
 const roomsRouter = Router();
-
-// TODO get /:roomId/offers
-// TODO post /:roomId/offers
 
 roomsRouter.get("/:roomId", async (req, res) => {
     const roomId = req.params.roomId
@@ -35,6 +34,12 @@ roomsRouter.get("/", async (req, res) => {
     if (req.query.endDate) {
         args.endDate = req.query.endDate.toString();
     }
+    if (req.query.minPrice) {
+        args.minPrice = req.query.minPrice.toString();
+    }
+    if (req.query.maxPrice) {
+        args.maxPrice = req.query.maxPrice.toString();
+    }
     /*if (req.query.guests) {
         args.push({guests: req.query.guests});
     }*/
@@ -46,10 +51,17 @@ roomsRouter.get("/", async (req, res) => {
     return resultOk(rooms.value, res, `Listed ${rooms.value.length} rooms`)
 });
 
-roomsRouter.post("/", validation({body: RoomCreateSchema}), async (req, res) => {
-    // TODO: auth user and get his ID
+roomsRouter.post("/", validation({body: RoomPostSchema}), async (req, res) => {
+    if(!req.session.user){
+        return resultError(401, res, "Unauthorized");
+    }
+    const user= await usersRepository.getSingleByEmail(req.session.user.email!);
+    if (user.isErr) {
+        return resultError(500, res, user.error.message);
+    }
+
     const room = await roomsRepository.createSingle(
-        { ...req.body});
+        { ...req.body, userId: user.value!.id});
     if (room.isErr) {
         return resultError(500, res, room.error.message);
     }
@@ -69,8 +81,24 @@ roomsRouter.get("/:roomId/offers", async (req, res) => {
 });
 
 roomsRouter.post("/:roomId/offers", validation({body: OfferPostSchema}), async (req:Request, res) => {
-    // TODO AUTH and check if user is owner of room
-    const roomId = req.params.roomId
+    if(!req.session.user){
+        return resultError(401, res, "Unauthorized");
+    }
+    const user= await usersRepository.getSingleByEmail(req.session.user.email!);
+    if (user.isErr) {
+        return resultError(500, res, user.error.message);
+    }
+
+    const roomId = req.params.roomId;
+    const room = await getSingleById(roomId);
+    if (!room || room.isErr || room.value == null) {
+        return resultError(500, res, "Room error exist");
+    }
+
+    if (room.value.userId !== user.value?.id) {
+        return resultError(500, res, "User is not owner of this room");
+    }
+
     let data = req.body;
     data.roomId = roomId;
     const offer = await offersRepository.createSingle(

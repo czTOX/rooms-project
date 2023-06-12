@@ -15,13 +15,11 @@ export const createSingle = async ( data: RoomCreate ): Promise<Result<Room | nu
                 caption: data.caption,
                 user: {
                     connect: {
-                        //id: data.user.id,
                         id: data.userId,
                     },
                 },
                 location: {
                     connect: {
-                        //id: data.location.id,
                         id: data.locationId,
                     },
                 },
@@ -41,13 +39,16 @@ export const createSingle = async ( data: RoomCreate ): Promise<Result<Room | nu
 }
 
 export const getAll = async(args: Dict<any>): Promise<Result<Room[], Error>> => {
-    // TODO add startDate and endDate filter (offer in range, no bookings)
     try {
         let query = {
             where: {
                 locationId: args.location != null ? args.location : undefined,
                 offers: args.startDate != null ? {some: {}} : undefined,
                 bookings: args.startDate != null ? {none: {}} : undefined,
+                pricePerNight: {
+                    lte: args.maxPrice != null ? parseFloat(args.maxPrice) : undefined,
+                    gte: args.minPrice != null ? parseFloat(args.minPrice) : undefined,
+                }
             },
             include:
                 {

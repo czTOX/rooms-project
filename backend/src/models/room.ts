@@ -1,18 +1,21 @@
 import z from "zod";
-import {UserSchema} from "./user";
-import {LocationSchema} from "./location";
 
-export const RoomCreateSchema = z.object({
+export const RoomPostSchema = z.object({
     photosUrls: z.string(),
     caption: z.string(),
     description: z.string(),
     pricePerNight: z.number(),
-    userId: z.string(),
     locationId: z.string(),
 });
+
+export const RoomCreateSchema = z.object({
+        userId: z.string(),
+}).merge(RoomPostSchema);
+
 export const RoomSchema = z.object({
     id: z.string(),
 }).merge(RoomCreateSchema);
 
+export type RoomPost = z.infer<typeof RoomPostSchema>
 export type RoomCreate = z.infer<typeof RoomCreateSchema>;
 export type Room = z.infer<typeof RoomSchema>;
