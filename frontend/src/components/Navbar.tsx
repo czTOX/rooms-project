@@ -1,6 +1,5 @@
 import { FC } from 'react';
-import { Link, NavLink } from 'react-router-dom';
-import React from 'react';
+import { Link } from 'react-router-dom';
 import { logedInAtom } from '../state/atoms';
 import { useRecoilValue } from 'recoil';
 
@@ -10,7 +9,7 @@ const Navbar: FC = () => {
 
   return (
     <nav className='navbar'>
-      <a href="/" className="navbar__logo text-semibold">Rooms</a>
+      <Link to='/' className='navbar__logo text-semibold'>Rooms</Link>
       <div className="navbar__links">
         <Link to='/' className='navbar__links-link navbar__button text-regular'>Room listings</Link>
         {logedIn ? 

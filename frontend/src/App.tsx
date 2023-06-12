@@ -17,7 +17,7 @@ export default function App() {
   return (
     <>
       <Navbar />
-      <div className="main">
+      <main className="main-container">
         <Routes>
           <Route path="/" element={<RoomsPage />} />
           <Route path="/login" element={<LoginPage />} />
@@ -29,7 +29,7 @@ export default function App() {
             <Route path="/rooms/new-room" element={<NewRoomPage />} />
           </Route>
         </Routes>
-      </div>
+      </main>
     </>
   );
 }
