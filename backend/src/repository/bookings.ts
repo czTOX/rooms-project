@@ -6,7 +6,7 @@ import prisma from "../client";
 export const createSingle = async ( data: BookingCreate ): Promise<Result<Booking | null, Error>> => {
     // TODO AUTH
     // TODO check if offers are open in this date range
-    // TODO check if there are no other bookings in this date range
+    // TODO check if there ar e no other bookings in this date range
     try {
         const booking = await prisma.booking.create({
             data: {

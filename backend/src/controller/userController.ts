@@ -60,4 +60,35 @@ userRouter.get("/:userId/rooms",  async (req, res) => {
     return resultOk(user.value, res, `Listed user with rooms with ID ${userId}`)
 });
 
+userRouter.get("/:userId/bookings/:history?", async (req, res) => {
+    if(!req.session.user){
+        return resultError(401, res, "Unauthorized");
+    }
+    const user= await usersRepository.getSingleByEmail(req.session.user.email!);
+    if (user.isErr) {
+        return resultError(500, res, user.error.message);
+    }
+    const userId = req.params.userId
+    if (userId !== user.value?.id) {
+        return resultError(500, res, "You cannot see other users bookings");
+    }
+
+    let userBookings;
+    let outputText = `Listed user with bookings. ID: ${userId}`;
+    if (req.params.history == null) {
+        userBookings = await usersRepository.getUserWithBookings(userId, false);
+    } else if (req.params.history === 'history') {
+        userBookings = await usersRepository.getUserWithBookings(userId, true);
+        outputText = `Listed user with history bookings. ID: ${userId}`;
+    } else {
+        return resultError(404, res, "Path not found");
+    }
+
+    if (userBookings.isErr) {
+        return resultError(500, res, userBookings.error.message);
+    }
+    return resultOk(userBookings.value, res, outputText);
+});
+
+
 export default userRouter;
