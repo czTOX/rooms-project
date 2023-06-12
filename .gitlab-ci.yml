@@ -1,0 +1,48 @@
+default:
+  tags:
+    - shared-fi
+  image: node
+
+build-frontend:
+  stage: build
+  script: 
+    - echo "Start building App"
+    - npm install
+    - npm run build
+    - echo "Build successfully!"
+  artifacts:
+    expire_in: 1 hour
+    paths:
+      - build
+      - node_modules/
+
+
+lint-backend:
+  script:
+   - cd backend
+   - npm ci --cache /npm/npm-cache --no-audit --prefer-offline
+   - npx eslint --max-warnings 0 src/**/*.ts
+
+lint-frontend:
+  script:
+   - npm ci --cache /npm/npm-cache --no-audit --prefer-offline
+   - npx eslint --max-warnings 0 src/**/*.js
+
+
+format-check-frontend:
+  script:
+   - npm ci --cache /npm/npm-cache --no-audit --prefer-offline
+   - npx prettier --check src/**/*.js
+  
+format-check-backend:
+  script:
+   - cd backend
+   - npm ci --cache /npm/npm-cache --no-audit --prefer-offline
+   - npx prettier --check src/**/*.ts
+
+
+typecheck-backend:
+  script:
+   - cd backend
+   - npm ci --cache /npm/npm-cache --no-audit --prefer-offline
+   - npx tsc --noEmit
