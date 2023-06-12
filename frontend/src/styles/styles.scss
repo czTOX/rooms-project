@@ -1,0 +1,42 @@
+//------- VARIABLES -------
+
+$main-color: #E95B5B;
+
+//------- IMPORTS -------
+
+@import 'components/header.scss';
+
+//------- FONTS -------
+
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
+
+.text-regular {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 400;
+}
+
+.text-semibold {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 600;
+}
+
+.text-bold {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 700;
+}
+
+//------- STYLES -------
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
