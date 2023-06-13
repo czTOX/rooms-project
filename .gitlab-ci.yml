@@ -1,10 +1,10 @@
+
 default:
   tags:
     - shared-fi
   image: node
 
 build-frontend:
-  stage: build
   script: 
     - echo "Start building App"
     - cd frontend
