@@ -10,7 +10,7 @@ const UserRegistraionSchema = z.object({
     lastName: z.string({ required_error: 'Missing `lastName` parameter'}).nonempty(),
     phoneNumber: z.string({required_error: 'Missing `phoneNumber` parameter'}).nonempty(),
     email: z.string({required_error: 'Missing `email` parameter'}).nonempty(),
-    password: z.string({required_error: 'Missing `password` parameter'}).nonempty(),
+    hashedPassword: z.string({required_error: 'Missing `password` parameter'}).nonempty(),
 });
 
 const UserSchema = z.object({

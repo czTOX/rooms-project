@@ -1,10 +1,9 @@
-import { Room, ResponseMulti, ResponseSingle } from "../models";
+import { Room, NewRoom, ResponseMulti, ResponseSingle, Filter } from "../models";
 import axiosInstance from "./base";
 
-//TODO: upravit vsechny funkce
 
-export const getAll = async (): Promise<ResponseMulti<Room>> => {
-    const response = await axiosInstance.get('/rooms');
+export const getFiltered = async (filter: Filter): Promise<ResponseMulti<Room>> => {
+    const response = await axiosInstance.post('/rooms', {filter});
     return response.data;
 }
 
@@ -13,7 +12,7 @@ export const getSingle = async (roomId: string): Promise<ResponseSingle<Room>> =
     return response.data;
 }
 
-export const createRoom = async (content: Room): Promise<ResponseSingle<Room>> => {
-    const response = await axiosInstance.post('/rooms/new', {content});
+export const createRoom = async (content: NewRoom): Promise<ResponseSingle<Room>> => {
+    const response = await axiosInstance.post('/rooms', {content});
     return response.data;
 }

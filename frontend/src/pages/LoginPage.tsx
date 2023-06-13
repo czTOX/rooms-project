@@ -4,11 +4,26 @@ import { UserLogin } from '../models';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import { Link, useNavigate } from 'react-router-dom';
+import { useMutation } from '@tanstack/react-query';
+import { UsersApi } from '../services';
+import { logedInAtom } from '../state/atoms';
+import { useSetRecoilState } from 'recoil';
 
 
 const LoginPage: FC = () => {
+  const setLogedIn = useSetRecoilState(logedInAtom);
+
+  const { mutate: loginUser } = useMutation({
+    mutationFn: (body: UserLogin) => UsersApi.loginUser(body),
+    onSuccess: () => {
+      console.log('User login successful!');
+      setLogedIn(true);
+      navigate(`/`);
+    }
+  });
+
   const {register, handleSubmit} = useForm<UserLogin>();
-  const onSubmit = (data: UserLogin) => console.log(data);
+  const onSubmit = (data: UserLogin) => loginUser(data);
   const navigate = useNavigate();
 
   return (

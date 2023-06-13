@@ -1,13 +1,25 @@
 import { FC } from 'react';
-import { Room } from '../models/roomTypes';
+import { NewRoom } from '../models/roomTypes';
 import { useForm } from 'react-hook-form';
 import { Button, TextField } from '@mui/material';
 import NewRoomPhoto from '../components/NewRoomPhoto';
+import { useMutation } from '@tanstack/react-query';
+import { RoomsApi } from '../services';
+import { useNavigate } from 'react-router-dom';
 
 
 const NewRoomPage: FC = () => {
-  const {register, handleSubmit} = useForm<Room>();
-  const onSubmit = (data: Room) => console.log(data);
+  const { mutate: createRoom } = useMutation({
+    mutationFn: (body: NewRoom) => RoomsApi.createRoom(body),
+    onSuccess: (res) => {
+      console.log('New room created!');
+      navigate(`/rooms/${res.data.id}`);
+    }
+  });
+
+  const {register, handleSubmit} = useForm<NewRoom>();
+  const onSubmit = (data: NewRoom) => createRoom(data);
+  const navigate = useNavigate();
 
   const photos: any[] = ['x'];
   return (
@@ -18,7 +30,7 @@ const NewRoomPage: FC = () => {
           <div className="page-header__divider"></div>
         </header>
       </div>
-      <form className='new-room-form'>
+      <form className='new-room-form' onSubmit={handleSubmit(onSubmit)}>
         <TextField
           required
           id="outlined-required"
