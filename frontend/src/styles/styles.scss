@@ -1,0 +1,508 @@
+//------- VARIABLES -------
+
+$main-color: #E95B5B;
+
+//------- IMPORTS -------
+
+@import 'components/navbar.scss';
+@import 'components/forms.scss';
+
+//------- FONTS -------
+
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
+
+.text-regular {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 400;
+}
+
+.text-semibold {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 600;
+}
+
+.text-bold {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 700;
+}
+
+//------- STYLES -------
+
+body {
+  margin: 0;
+}
+
+.main-container {
+  margin-top: 60px;
+  margin-left: 120px;
+  margin-right: 120px;
+
+  @media only screen and (max-width: 1250px) {
+    margin-left: 60px;
+    margin-right: 60px;
+	}
+
+  @media only screen and (max-width: 700px) {
+    margin-left: 12px;
+    margin-right: 12px;
+	}
+}
+
+.only-block__container {
+  width: 100%;
+  height: calc(100vh - 60px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  @media only screen and (max-width: 1250px) {
+    margin-top: 120px;
+    margin-bottom: 80px;
+	}
+}
+
+.only-block {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #707070;
+  border-radius: 60px;
+  width: 500px;
+  padding: 30px 10px;
+
+  h1 {
+    margin: 0;
+  }
+}
+
+.header-container {
+  margin-top: 170px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  h1 {
+    font-size: 54px;
+    margin: 0;
+
+    @media only screen and (max-width: 700px) {
+      font-size: 42px;
+    }
+
+    @media only screen and (max-width: 400px) {
+      font-size: 30px;
+    }
+  }
+
+  @media only screen and (max-width: 850px) {
+    flex-direction: column;
+    align-items: start;
+
+    margin-top: 90px;
+	}
+}
+
+.page-header__divider {
+  width: 120px;
+  height: 10px;
+  background: $main-color;
+}
+
+.searchBox {
+  display: flex;
+  align-items: center;
+
+  @media only screen and (max-width: 850px) {
+    margin-top: 2em;
+	}
+}
+
+.filter {
+  border: 1px solid black;
+  border-radius: 20px;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  padding: 10px;
+  margin-top: 45px;
+  column-gap: 1em;
+  row-gap: 1em;
+  width: fit-content;
+
+  @media only screen and (max-width: 850px) {
+    margin-top: 1em;
+	}
+}
+
+.filter__item {
+  @media only screen and (max-width: 483px) {
+    max-width: 7em;
+	}
+
+  @media only screen and (max-width: 290px) {
+    max-width: 100%;
+	}
+}
+
+.filter__date, .filter__price {
+  display: flex;
+  column-gap: 1em !important;
+  row-gap: 1em !important;
+
+  @media only screen and (max-width: 600px) {
+    flex-wrap: wrap;
+	}
+}
+
+.filter__submit {
+  margin-left: auto !important;
+  background-color: $main-color !important;
+}
+
+.sort {
+  border: 1px solid black;
+  border-radius: 20px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-top: 1em;
+  height: 50px;
+  width: fit-content;
+}
+
+.sort__title {
+  margin-left: 20px;
+  margin-right: 20px;
+
+  @media only screen and (max-width: 500px) {
+    display: none;
+	}
+}
+
+.sort-options {
+  height: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.sort__item {
+  background: white;
+  border: none;
+  padding: 0 25px;
+  font-size: 16px;
+  height: 100%;
+
+  &:hover {
+    background: $main-color;
+    color: white;
+    cursor: pointer;
+  }
+
+  &:last-child {
+    border-top-right-radius: 20px;
+    border-bottom-right-radius: 20px;
+  }
+
+  @media only screen and (max-width: 500px) {
+    font-size: 13px;
+    padding: 0 10px;
+    &:first-child {
+      border-top-left-radius: 20px;
+      border-bottom-left-radius: 20px;
+    }
+	}
+}
+
+.sort__item--selected {
+  background: $main-color;
+  color: white;
+}
+
+.content-divider {
+  width: 100%;
+  background: $main-color;
+  height: 5px;
+  margin-top: 1em;
+}
+
+.rooms {
+  display: flex;
+  flex-direction: column;
+  margin-top: 3em;
+  row-gap: 1em;
+  margin-bottom: 50px;
+}
+
+.room-view {
+  display: flex;
+  flex-direction: row;
+  padding: 5px;
+  border: 1px solid black;
+
+  @media only screen and (max-width: 720px) {
+    flex-direction: column;
+	}
+}
+
+.room-view__photo {
+  width: 344px;
+  height: 230px;
+
+  @media only screen and (max-width: 1366px) {
+    width: 240px;
+    height: 160px;
+	}
+
+  @media only screen and (max-width: 720px) {
+    width: 100%;
+    height: auto;
+	}
+}
+
+.room-view-info {
+  width: 100%;
+}
+
+.room-view-info__left {
+  margin-left: 100px;
+  
+  @media only screen and (max-width: 1366px) {
+    margin-left: 30px;
+	}
+
+  @media only screen and (max-width: 720px) {
+    margin-left: 1.5em;
+	}
+
+  @media only screen and (max-width: 400px) {
+    margin-left: 5px;
+	}
+}
+
+.room-view-info__title {
+  font-size: 26px;
+
+  @media only screen and (max-width: 1366px) {
+    font-size: 20px;
+    margin-bottom: 5px;
+	}
+}
+
+.room-view-info__date {
+  @media only screen and (max-width: 1366px) {
+    font-size: 16px;
+	}
+}
+
+.room-view-info__right {
+  display: flex;
+  flex-direction: column;
+  justify-content: end;
+  align-items: end;
+  margin: 30px;
+  margin-right: 3em;
+  margin-left: auto;
+
+  @media only screen and (max-width: 1366px) {
+    margin: 15px;
+    margin-right: 1.5em;
+    margin-left: auto;
+	}
+
+  @media only screen and (max-width: 400px) {
+    margin: 5px;
+    margin-left: auto;
+	}
+}
+
+.room-view-info__price {
+  font-size: 36px;
+  color: $main-color;
+
+  @media only screen and (max-width: 1366px) {
+    font-size: 24px;
+	}
+}
+
+.room-view-info__button {
+  background-color: $main-color !important;
+  width: 15em;
+  height: 3em !important;
+  margin-top: 2em !important;
+  
+  a {
+    text-decoration: none;
+    color: white;
+  }
+
+  @media only screen and (max-width: 1366px) {
+    width: 10em;
+    height: 2.5em !important;
+    margin-top: 1.5em !important;
+	}
+
+  @media only screen and (max-width: 800px) {
+    margin-top: 0.5em !important;
+	}
+}
+
+.bookings-history {
+  font-size: 20px;
+  margin: 0;
+  margin-top: 5em;
+
+  h2 {
+    margin: 0;
+  }
+
+  .content-divider {
+    margin-top: 5px;
+  }
+
+  @media only screen and (max-width: 600px) {
+    margin-top: 3em;
+	}
+}
+
+.header__button {
+  height: 4.5em !important;
+  width: 10em;
+  background-color: $main-color !important;
+
+  a {
+    text-decoration: none;
+    color: white;
+  }
+
+  @media only screen and (max-width: 850px) {
+    margin-top: 4em !important;
+    width: 12em;
+    height: 3.5em !important;
+	}
+}
+
+.room-content {
+  margin-top: 70px;
+  display: flex;
+  flex-direction: row;
+  margin-bottom: 70px;
+
+  @media only screen and (max-width: 1200px) {
+    flex-direction: column;
+	}
+}
+
+.room-carousel {
+  width: 900px !important;
+  height: 600px !important;
+
+  @media only screen and (max-width: 1580px) {
+    width: 720px;
+    height: 480px;
+	}
+
+  @media only screen and (max-width: 1200px) {
+    width: 100% !important;
+    height: 30% !important;
+	}
+}
+
+.room-info {
+  margin-left: 10em;
+  margin-top: 2em;
+  max-width: 40%;
+  width: 100%;
+
+  @media only screen and (max-width: 1580px) {
+    margin-left: 5em;
+	}
+
+  @media only screen and (max-width: 1200px) {
+    margin-left: 0;
+    max-width: 100%;
+	}
+}
+
+.room-info__order-summary__datepicker {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+
+  @media only screen and (max-width: 1200px) {
+    width: auto;
+	}
+}
+
+.book-room__button {
+  height: 4.5em !important;
+  width: 15em;
+  background-color: $main-color !important;
+  margin-left: auto !important;
+}
+
+.room-info__basic {
+  display: flex;
+  flex-direction: column;
+  row-gap: .7em;
+
+  span {
+    font-size: 18px;
+  }
+}
+
+.room-info__order-summary {
+  margin-top: 30%;
+  display: flex;
+  flex-direction: column;
+  justify-content: right;
+  align-items: end;
+  row-gap: 2em;
+
+  @media only screen and (max-width: 1200px) {
+    margin-top: 2em;
+	}
+}
+
+.room-info__order-summary__price {
+  font-size: 20px;
+}
+
+.DatePicker {
+  &:not(:first-child) {
+    margin-left: 1em;
+  }
+}
+
+.new-room-form {
+  margin-top: 4em;
+  display: flex;
+  flex-direction: column;
+  justify-content: left;
+  margin-bottom: 50px;
+}
+
+.form-photos {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  column-gap: 2em;
+  row-gap: 2em;
+  justify-content: left;
+  margin-top: 2em;
+
+  @media only screen and (max-width: 535px) {
+    justify-content: center;
+	}
+}
+
+.new-room__photo-preview {
+  width: 344px;
+  height: 230px;
+
+  @media only screen and (max-width: 1366px) {
+    width: 240px;
+    height: 160px;
+	}
+}
