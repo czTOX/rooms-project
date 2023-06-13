@@ -50,7 +50,7 @@ const NewRoomPage: FC = () => {
         <div className="form-photos">
           {photos.map(() => <NewRoomPhoto />)}
         </div>
-        <Button variant="contained" type='submit' className='form-submit form-button text-regular'>Add new room</Button>
+        <Button variant="contained" type='submit' className='form-button form-submit text-regular'>Add new room</Button>
       </form>
     </>
   );

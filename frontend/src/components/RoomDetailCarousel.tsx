@@ -4,12 +4,12 @@ import { Carousel } from 'react-responsive-carousel';
 
 const RoomDetailCarousel: FC = () => {
   return (
-    <Carousel showArrows={true} swipeable={true} showStatus={false}>
+    <Carousel showArrows={true} swipeable={true} showStatus={false} dynamicHeight={false}>
       <div>
-        <img src="assets/room-example.jpg" />
+        <img src="https://picsum.photos/900/600" />
       </div>
       <div>
-        <img src="assets/room-example.jpg" />
+        <img src="https://picsum.photos/900/600" />
       </div>
     </Carousel>
   );

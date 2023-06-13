@@ -37,7 +37,7 @@ const LoginPage: FC = () => {
               className='form-textInput'
             />
             <Link to='/registration' className='form__link text-regular'>I don't have a account yet!</Link>
-            <Button variant="contained" type='submit' className='form-submit'>Let me in!</Button>
+            <Button variant="contained" type='submit' className='login-button'>Let me in!</Button>
           </form>
         </div>
       </div>

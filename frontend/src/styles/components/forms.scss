@@ -7,6 +7,10 @@
     height: 10px;
     margin: auto;
     margin-top: 10px;
+
+    @media only screen and (max-width: 290px) {
+        width: 100%;
+	}
 }
 
 .form {
@@ -37,21 +41,29 @@
     }
 }
 
-.form-submit {
-    background-color: $main-color !important;
-    width: 66%;
-    margin: auto !important;
-    margin-top: 3em !important;
-    border-radius: 20px !important;
-    height: 3em;
-}
-
 .form-button {
     background-color: $main-color !important;
-    width: 15%;
+    width: fit-content;
     margin-top: 3em !important;
     border-radius: 20px !important;
     height: 3em;
     margin-right: auto !important;
     margin-left: 0 !important;
+}
+
+.form-submit {
+    margin: auto !important;
+    margin-top: 3em !important;
+    border-radius: 20px !important;
+    height: 3em;
+    margin-right: 0 !important;
+}
+
+.login-button {
+    background-color: $main-color !important;
+    width: 220px;
+    border-radius: 20px !important;
+    height: 3em;
+    margin: auto !important;
+    margin-top: 3em !important;
 }

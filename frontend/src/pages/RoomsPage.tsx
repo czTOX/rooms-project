@@ -29,38 +29,43 @@ const RoomsPage: FC = () => {
           id="outlined-basic"
           label="Location"
           variant="outlined"
+          className='filter__item'
         />
-        <TextField
-          id="outlined-basic"
-          label="Min. price"
-          variant="outlined"
-        />
-        <TextField
-          id="outlined-basic"
-          label="Max. price"
-          variant="outlined"
-        />
-        <LocalizationProvider dateAdapter={AdapterDayjs}>
-            <DatePicker
-              label="Date from:"
-            />
-            <DatePicker
-              label="Date to:"
-            />
-        </LocalizationProvider>
-        <TextField
-          id="outlined-basic"
-          label="Num. of beds"
-          type="number"
-          variant="outlined"
-        />
-        <Button variant="contained" type='submit' className='filter-submit'>Filter</Button>
+        <div className="filter__price">
+          <TextField
+            id="outlined-basic"
+            label="Min. price"
+            variant="outlined"
+            className='filter__item'
+          />
+          <TextField
+            id="outlined-basic"
+            label="Max. price"
+            variant="outlined"
+            className='filter__item'
+          />
+        </div>
+        <div className="filter__date">
+          <LocalizationProvider dateAdapter={AdapterDayjs}>
+              <DatePicker
+                label="Date from:"
+                className='filter__item'
+              />
+              <DatePicker
+                label="Date to:"
+                className='filter__item'
+              />
+          </LocalizationProvider>
+        </div>
+        <Button variant="contained" type='submit' className='filter__submit filter__item'>Filter</Button>
       </div>
       <div className="sort">
         <span className="sort__title text-semibold">Sort by:</span>
-        <button className="sort__item text-semibold">Cheapest</button>
-        <button className="sort__item sort__item--selected text-semibold">Most expensive</button>
-        <button className="sort__item text-semibold">Closest</button>
+        <div className="sort-options">
+          <button className="sort__item text-semibold">Cheapest</button>
+          <button className="sort__item sort__item--selected text-semibold">Most expensive</button>
+          <button className="sort__item text-semibold">Closest</button>
+        </div>
       </div>
       <div className="content-divider"></div>
       <div className="rooms">

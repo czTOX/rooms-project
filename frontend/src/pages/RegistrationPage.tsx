@@ -71,7 +71,7 @@ const RegistrationPage: FC = () => {
               { ...register('passwordAgain', { required: true })}
               className='form-textInput'
             />
-            <Button variant="contained" type='submit' className='form-submit text-regular'>Register</Button>
+            <Button variant="contained" type='submit' className='login-button text-regular'>Register</Button>
           </form>
         </div>
       </div>
