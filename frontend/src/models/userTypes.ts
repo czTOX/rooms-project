@@ -5,14 +5,21 @@ const UserLoginSchema = z.object({
     email: z.string({required_error: 'Missing `email` parameter'}).nonempty(),
 })
 
-const UserRegistraionFormSchema = z.object({
+const UserRegistraionSchema = z.object({
     firstName: z.string({ required_error: 'Missing `firstName` parameter'}).nonempty(),
     lastName: z.string({ required_error: 'Missing `lastName` parameter'}).nonempty(),
     phoneNumber: z.string({required_error: 'Missing `phoneNumber` parameter'}).nonempty(),
     email: z.string({required_error: 'Missing `email` parameter'}).nonempty(),
     password: z.string({required_error: 'Missing `password` parameter'}).nonempty(),
-    passwordAgain: z.string({required_error: 'Missing `passwordAgain` parameter'}).nonempty(),
 });
 
+const UserSchema = z.object({
+    firstName: z.string({ required_error: 'Missing `firstName` parameter'}).nonempty(),
+    lastName: z.string({ required_error: 'Missing `lastName` parameter'}).nonempty(),
+    phoneNumber: z.string({required_error: 'Missing `phoneNumber` parameter'}).nonempty(),
+    email: z.string({required_error: 'Missing `email` parameter'}).nonempty(),
+});
+
+export type User = z.infer<typeof UserSchema>;
 export type UserLogin = z.infer<typeof UserLoginSchema>;
-export type UserRegistraionForm = z.infer<typeof UserRegistraionFormSchema>;
+export type UserRegistraion = z.infer<typeof UserRegistraionSchema>;

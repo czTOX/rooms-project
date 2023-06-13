@@ -1,13 +1,13 @@
 import { FC } from 'react';
-import { NewRoomForm } from '../models/roomTypes';
+import { Room } from '../models/roomTypes';
 import { useForm } from 'react-hook-form';
 import { Button, TextField } from '@mui/material';
 import NewRoomPhoto from '../components/NewRoomPhoto';
 
 
 const NewRoomPage: FC = () => {
-  const {register, handleSubmit} = useForm<NewRoomForm>();
-  const onSubmit = (data: NewRoomForm) => console.log(data);
+  const {register, handleSubmit} = useForm<Room>();
+  const onSubmit = (data: Room) => console.log(data);
 
   const photos: any[] = ['x'];
   return (

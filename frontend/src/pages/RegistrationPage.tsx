@@ -2,12 +2,12 @@ import { Button, TextField } from '@mui/material';
 import { FC } from 'react';
 import { useForm } from 'react-hook-form';
 import { Link, useNavigate } from 'react-router-dom';
-import { UserRegistraionForm } from '../models';
+import { UserRegistraion } from '../models';
 
 
 const RegistrationPage: FC = () => {
-  const {register, handleSubmit} = useForm<UserRegistraionForm>();
-  const onSubmit = (data: UserRegistraionForm) => console.log(data);
+  const {register, handleSubmit} = useForm<UserRegistraion>();
+  const onSubmit = (data: UserRegistraion) => console.log(data);
   const navigate = useNavigate();
 
   return (
@@ -60,15 +60,6 @@ const RegistrationPage: FC = () => {
               type='password'
               defaultValue=""
               { ...register('password', { required: true })}
-              className='form-textInput'
-            />
-            <TextField
-              required
-              id="outlined-required"
-              label="Repeat password"
-              type='password'
-              defaultValue=""
-              { ...register('passwordAgain', { required: true })}
               className='form-textInput'
             />
             <Button variant="contained" type='submit' className='login-button text-regular'>Register</Button>
