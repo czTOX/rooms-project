@@ -7,6 +7,7 @@ build-frontend:
   stage: build
   script: 
     - echo "Start building App"
+    - cd frontend
     - npm install
     - npm run build
     - echo "Build successfully!"
@@ -25,14 +26,16 @@ lint-backend:
 
 lint-frontend:
   script:
+   - cd frontend
    - npm ci --cache /npm/npm-cache --no-audit --prefer-offline
-   - npx eslint --max-warnings 0 src/**/*.js
+   - npx eslint --max-warnings 0 src/**/*.{ts,tsx}
 
 
 format-check-frontend:
   script:
+   - cd frontend
    - npm ci --cache /npm/npm-cache --no-audit --prefer-offline
-   - npx prettier --check src/**/*.js
+   - npx prettier --check src/**/*.{ts,tsx}
   
 format-check-backend:
   script:
