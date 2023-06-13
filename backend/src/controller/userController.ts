@@ -28,21 +28,27 @@ userRouter.post("/register", validation({ body: UserRegisterSchema }), async (re
 });
 
 userRouter.post("/login", validation({ body: UserLoginSchema }), async (req, res) => {
-    const user= await usersRepository.getSingleByEmail(req.body.email);
+    const user= await usersRepository.getSingleByEmailAuth(req.body.email);
     if (user.isErr) {
         return resultError(500, res, user.error.message);
     }
+
     const verification= await verify(user.value!.hashedPassword, req.body.hashedPassword);
+
     if(!verification) {
         return resultError(401, res, "Wrong password");
     }
-    const data = user.value;
-    req.session.user = {
-        firstName: data!.firstName,
-        lastName: data!.lastName,
-        email: data!.email,
-        phoneNumber: data!.phoneNumber}
-    return resultOk(user.value, res,`Logged with id: ${user.value?.id}`);
+
+    const userData = {
+        id: user.value!.id,
+        firstName: user.value!.firstName,
+        lastName: user.value!.lastName,
+        email: user.value!.email,
+        phoneNumber: user.value!.phoneNumber,
+    }
+
+    req.session.user = userData;
+    return resultOk(userData, res,`Logged with id: ${user.value?.id}`);
 });
 
 userRouter.post("/logout", async (req, res) => {

@@ -2,11 +2,12 @@ import express from "express";
 import cors from "cors";
 import * as dotenv from "dotenv";
 import { userController, roomsController, locationsController } from "./controller";
+import { User } from "./models"
 import cookieParser from "cookie-parser";
 import session from "./middleware/session"
 
 declare module "express-session" {
-    interface SessionData {user: {firstName: string, lastName: string, email: string, phoneNumber: string}}
+    interface SessionData {user: User}
 }
 
 dotenv.config();
