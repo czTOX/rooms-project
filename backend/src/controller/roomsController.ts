@@ -1,5 +1,5 @@
 import { resultOk, resultError } from '../middleware/resultHandler';
-import {OfferPostSchema,  RoomPostSchema} from "../models";
+import {OfferPostSchema, RoomCreateSchema, RoomPostSchema} from "../models";
 import { validation } from "../middleware/validation";
 import {roomsRepository, offersRepository, usersRepository} from "../repository";
 import {Router, Request} from "express";
@@ -81,8 +81,7 @@ roomsRouter.post("/", upload.array("images"), validation({body: RoomPostSchema})
 
     let photosUrls = "";
     if (req.files) {
-        // @ts-ignore
-        photosUrls = req.files.map((file) => file.filename).join(';');
+        photosUrls = (req.files as Express.Multer.File[]).map((file) => file.filename).join(';');
     }
 
     const room = await roomsRepository.createSingle(

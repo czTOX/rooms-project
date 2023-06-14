@@ -7,7 +7,6 @@ export const LocationCreateSchema = z.object({
     street: z.string({ required_error: 'Missing `street` parameter'}).nonempty(),
     country: z.string({ required_error: 'Missing `country` parameter'}).nonempty(),
 })
-
 export const LocationSchema = z.object({
     id: z.string().nonempty(),
 }).merge(LocationCreateSchema)
