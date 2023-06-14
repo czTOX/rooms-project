@@ -4,9 +4,19 @@ import { validation } from "../middleware/validation";
 import {roomsRepository, offersRepository, usersRepository} from "../repository";
 import {Router, Request} from "express";
 import {getSingleById} from "../repository/rooms";
-import {number} from "zod";
+import multer from "multer";
+import path from "path";
 
 const roomsRouter = Router();
+
+const storage = multer.diskStorage({
+    destination: "uploads/",
+    filename: function(req, file, callback) {
+        callback(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname));
+    }
+});
+
+const upload = multer({storage});
 
 roomsRouter.get("/:roomId", async (req, res) => {
     const roomId = req.params.roomId
@@ -48,10 +58,11 @@ roomsRouter.get("/", async (req, res) => {
     if (rooms!.isErr) {
         return resultError(500, res, rooms.error.message);
     }
+
     return resultOk(rooms.value, res, `Listed ${rooms.value.length} rooms`)
 });
 
-roomsRouter.post("/", validation({body: RoomPostSchema}), async (req, res) => {
+roomsRouter.post("/", upload.array("images"), validation({body: RoomPostSchema}), async (req, res) => {
     if(!req.session.user){
         return resultError(401, res, "Unauthorized");
     }
@@ -60,8 +71,14 @@ roomsRouter.post("/", validation({body: RoomPostSchema}), async (req, res) => {
         return resultError(500, res, user.error.message);
     }
 
+    let photosUrls = "";
+    if (req.files) {
+        // @ts-ignore
+        photosUrls = req.files.map((file) => file.filename).join(';');
+    }
+
     const room = await roomsRepository.createSingle(
-        { ...req.body, userId: user.value!.id});
+        { ...req.body, userId: user.value!.id, photosUrls});
     if (room.isErr) {
         return resultError(500, res, room.error.message);
     }

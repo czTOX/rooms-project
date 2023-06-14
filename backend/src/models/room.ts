@@ -1,7 +1,6 @@
 import z from "zod";
 
 export const RoomPostSchema = z.object({
-    photosUrls: z.string(),
     caption: z.string(),
     description: z.string(),
     pricePerNight: z.number(),
@@ -10,6 +9,7 @@ export const RoomPostSchema = z.object({
 
 export const RoomCreateSchema = z.object({
         userId: z.string(),
+        photosUrls: z.string(),
 }).merge(RoomPostSchema);
 
 export const RoomSchema = z.object({

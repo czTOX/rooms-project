@@ -1,9 +1,8 @@
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime";
 import { Result } from '@badrap/result';
-import {Room, RoomCreate} from "../models";
+import {Room, RoomCreate, RoomCreateSchema} from "../models";
 import prisma from "../client";
 import Dict = NodeJS.Dict;
-
 
 export const createSingle = async ( data: RoomCreate ): Promise<Result<Room | null, Error>> => {
     try {
