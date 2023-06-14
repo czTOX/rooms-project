@@ -31,14 +31,12 @@ const FilterSchema = z.object({
     sort: z.string(),
 });
 
-const FilterWithoutDateSchema = z.object({
-    search: z.string(),
-    location: z.string(),
-    minPrice: z.string(),
-    maxPrice: z.string(),
+const FilterDatesSchema = z.object({
+    startDate: z.date().nullable(),
+    endDate: z.date().nullable(),
 });
 
 export type Room = z.infer<typeof RoomSchema>;
 export type NewRoom = z.infer<typeof NewRoomSchema>;
 export type Filter = z.infer<typeof FilterSchema>;
-export type FilterWithoutDate = z.infer<typeof FilterWithoutDateSchema>;
+export type FilterDates = z.infer<typeof FilterDatesSchema>;

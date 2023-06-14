@@ -1,4 +1,4 @@
-import { FC, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
 import RoomSimpleView from '../components/RoomSimpleView';
 import { Button, FormControl, InputLabel, MenuItem, Select, TextField } from '@mui/material';
 import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
@@ -7,7 +7,9 @@ import { useMutation, useQuery } from '@tanstack/react-query';
 import { LocationApi, RoomsApi } from '../services';
 import { useForm } from 'react-hook-form';
 import { Filter, Room } from '../models';
-import Moment from 'moment';
+import dayjs from 'dayjs';
+import { useRecoilState, useSetRecoilState } from 'recoil';
+import { filterDatesAtom } from '../state/atoms';
 
 
 const RoomsPage: FC = () => {
@@ -27,11 +29,12 @@ const RoomsPage: FC = () => {
   const [sort, setSort] = useState<string>("");
   const [startDate, setStartDate] = useState<Date | null>(null);
   const [endDate, setEndDate] = useState<Date | null>(null);
+  const setFilterDates = useSetRecoilState(filterDatesAtom);
 
   const {register, handleSubmit} = useForm<Filter>();
   const onSubmit = (data: Filter) => {
-    data.startDate = startDate ? (Moment(startDate).format('MM-DD-YYYY')) : "";
-    data.endDate = endDate ? (Moment(endDate).format('MM-DD-YYYY')) : "";
+    data.startDate = startDate ? startDate.toISOString() : "";
+    data.endDate = endDate ? endDate.toISOString() : "";
     data.location = location;
     data.sort = sort;
     filterRooms(data);
@@ -39,6 +42,10 @@ const RoomsPage: FC = () => {
   const [rooms, setRooms] = useState<Array<Room>>();
 
   const cities = [...new Set(locations?.data.map(q => q.city))];
+
+  useEffect(() => {
+    setFilterDates({startDate, endDate})
+  }, [startDate, endDate]);
 
   return (
     <>
@@ -92,9 +99,12 @@ const RoomsPage: FC = () => {
                 className='filter__item'
                 value={startDate}
                 onChange={(newValue) => {
-                  if(newValue != null) {
-                    setStartDate(newValue)
-                  };
+                  if(newValue != null) setStartDate(new Date(newValue));
+                }}
+                slotProps={{
+                  textField: {
+                    required: true,
+                  },
                 }}
               />
               <DatePicker
@@ -102,7 +112,12 @@ const RoomsPage: FC = () => {
                 className='filter__item'
                 value={endDate}
                 onChange={(newValue) => {
-                  if(newValue != null) setEndDate(newValue);
+                  if(newValue != null) setEndDate(new Date(newValue));
+                }}
+                slotProps={{
+                  textField: {
+                    required: true,
+                  },
                 }}
               />
           </LocalizationProvider>

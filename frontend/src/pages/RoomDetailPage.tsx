@@ -11,12 +11,13 @@ import { NewBooking } from '../models';
 import moment from 'moment';
 import Moment from 'moment';
 import { useRecoilValue } from 'recoil';
-import { logedInAtom } from '../state/atoms';
+import { filterDatesAtom, logedInAtom } from '../state/atoms';
 
 
 const RoomDetailPage: FC = () => {
   const { id } = useParams();
   const logedIn = useRecoilValue(logedInAtom);
+  const filterDates = useRecoilValue(filterDatesAtom);
   
   const { data: room } = useQuery({
     queryKey: ['room', id],
@@ -33,8 +34,8 @@ const RoomDetailPage: FC = () => {
 
   function tryToBookRoom() {
     var body = {
-      startDate: Moment(startDate).format('MM-DD-YYYY'),
-      endDate: Moment(endDate).format('MM-DD-YYYY'),
+      startDate: filterDates.startDate ? filterDates.startDate.toISOString() : "",
+      endDate: filterDates.endDate ? filterDates.endDate.toISOString() : "",
       totalPrice: totalPrice,
     }
     if (logedIn) {
@@ -44,19 +45,19 @@ const RoomDetailPage: FC = () => {
     }
   }
 
-  const [startDate, setStartDate] = useState<Date | null>(new Date());
-  const [endDate, setEndDate] = useState<Date | null>(new Date());
+
   const [totalPrice, setTotalPrice] = useState(0);
 
   useEffect(() => {
-    if (endDate && room) {
-      const diff = Moment(endDate).diff(Moment(startDate));
+    if (filterDates.endDate && room) {
+      const diff = Moment(filterDates.endDate).diff(Moment(filterDates.startDate));
       const diffDuration = moment.duration(diff);
       if(diffDuration.days() > 0) {
         setTotalPrice(diffDuration.days() * room?.data.pricePerNight);
       }
+      console.log(filterDates)
     }
-  }, [startDate, endDate]);
+  }, []);
 
   return (
     <>
@@ -77,26 +78,6 @@ const RoomDetailPage: FC = () => {
             <span className="room-info__price text-regular">Price per night: <strong>{room?.data.pricePerNight} Kč</strong></span>
           </div>
           <div className="room-info__order-summary">
-            <div className="room-info__order-summary__datepicker">
-              <LocalizationProvider dateAdapter={AdapterDayjs}>
-                <DatePicker
-                  label="From:"
-                  className='DatePicker'
-                  value={startDate}
-                  onChange={(newValue) => {
-                    if(newValue != null) setStartDate(newValue);
-                  }}
-                />
-                <DatePicker
-                  label="To:"
-                  className='DatePicker'
-                  value={endDate}
-                  onChange={(newValue) => {
-                    if(newValue != null) setEndDate(newValue);
-                  }}
-                />
-              </LocalizationProvider>
-            </div>
             <span className='room-info__order-summary__price text-semibold'>Final price: <strong>{totalPrice} Kč</strong></span>
             <Button variant="contained" className='book-room__button' onClick={tryToBookRoom}>
               Book the room

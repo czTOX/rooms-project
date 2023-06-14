@@ -17,7 +17,8 @@ const port = process.env.BACKEND_PORT ?? 4000;
 api.use(express.json());
 api.use(session());
 api.use(cookieParser());
-api.use(cors());
+api.use(cors(({credentials: true, origin: 'http://localhost:3000'})));
+
 
 api.use("/users", userController);
 api.use("/rooms", roomsController);
