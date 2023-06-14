@@ -1,4 +1,6 @@
 deploy:
+  tags:
+    - shared-fi
   image: kroniak/ssh-client
   before_script:
     - echo "deploying app"
