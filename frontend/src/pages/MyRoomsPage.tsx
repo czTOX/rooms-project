@@ -2,10 +2,16 @@ import { FC } from 'react';
 import RoomSimpleView from '../components/RoomSimpleView';
 import { Button } from '@mui/material';
 import { Link } from 'react-router-dom';
+import { useQuery } from '@tanstack/react-query';
+import { UsersApi } from '../services';
 
 
 const MyRoomsPage: FC = () => {
-  const rooms: any[] = ['x'];
+  const { data: myRooms } = useQuery({
+    queryKey: ['myRooms'],
+    queryFn: () => UsersApi.getMyRooms(),
+  });
+
   return (
     <>
       <div className="header-container">
@@ -18,7 +24,7 @@ const MyRoomsPage: FC = () => {
         </Button>
       </div>
       <div className="rooms">
-        {rooms.map(() => <RoomSimpleView />)}
+        {myRooms?.data.map((room) => <RoomSimpleView key={room.id} {...room} />)}
       </div>
     </>
   );

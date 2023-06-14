@@ -23,5 +23,6 @@ api.use("/users", userController);
 api.use("/rooms", roomsController);
 api.use("/locations", locationsController);
 api.use("/bookings", bookingsController);
+api.use('/images', express.static("uploads"));
 
 api.listen(port, () => console.log(`Listening on port ${port}`));

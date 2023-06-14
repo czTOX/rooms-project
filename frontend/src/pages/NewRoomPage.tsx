@@ -1,13 +1,25 @@
 import { FC } from 'react';
-import { Room } from '../models/roomTypes';
+import { NewRoom } from '../models/roomTypes';
 import { useForm } from 'react-hook-form';
 import { Button, TextField } from '@mui/material';
 import NewRoomPhoto from '../components/NewRoomPhoto';
+import { useMutation } from '@tanstack/react-query';
+import { RoomsApi } from '../services';
+import { useNavigate } from 'react-router-dom';
 
 
 const NewRoomPage: FC = () => {
-  const {register, handleSubmit} = useForm<Room>();
-  const onSubmit = (data: Room) => console.log(data);
+  const { mutate: createRoom } = useMutation({
+    mutationFn: (body: NewRoom) => RoomsApi.createRoom(body),
+    onSuccess: (res) => {
+      console.log('New room created!');
+      navigate(`/rooms/${res.data.id}`);
+    }
+  });
+
+  const {register, handleSubmit} = useForm<NewRoom>();
+  const onSubmit = (data: NewRoom) => createRoom(data);
+  const navigate = useNavigate();
 
   const photos: any[] = ['x'];
   return (
@@ -18,10 +30,9 @@ const NewRoomPage: FC = () => {
           <div className="page-header__divider"></div>
         </header>
       </div>
-      <form className='new-room-form'>
+      <form className='new-room-form' onSubmit={handleSubmit(onSubmit)}>
         <TextField
           required
-          id="outlined-required"
           label="Caption"
           type='text'
           defaultValue=""
@@ -29,7 +40,6 @@ const NewRoomPage: FC = () => {
           className='form-textInput'
         />
         <TextField
-          id="outlined-multiline-static"
           label="Description"
           multiline
           rows={4}
@@ -39,16 +49,47 @@ const NewRoomPage: FC = () => {
         />
         <TextField
           required
-          id="outlined-required"
           label="Price per night"
           type='number'
           defaultValue=""
           { ...register('pricePerNight', { required: true })}
           className='form-textInput'
         />
+        <TextField
+          required
+          label="City"
+          type='text'
+          defaultValue=""
+          { ...register('city', { required: true })}
+          className='form-textInput'
+        />
+        <TextField
+          required
+          label="Zip code"
+          type='text'
+          defaultValue=""
+          { ...register('zip', { required: true })}
+          className='form-textInput'
+        />
+        <TextField
+          required
+          label="Street"
+          type='text'
+          defaultValue=""
+          { ...register('street', { required: true })}
+          className='form-textInput'
+        />
+        <TextField
+          required
+          label="Country"
+          type='text'
+          defaultValue=""
+          { ...register('country', { required: true })}
+          className='form-textInput'
+        />
         <Button variant="contained" type='submit' className='form-button text-regular'>Add more photos</Button>
         <div className="form-photos">
-          {photos.map(() => <NewRoomPhoto />)}
+          {photos.map((photo, index) => <NewRoomPhoto key={`photo-${index}`} />)}
         </div>
         <Button variant="contained" type='submit' className='form-button form-submit text-regular'>Add new room</Button>
       </form>

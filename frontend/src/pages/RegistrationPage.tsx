@@ -3,12 +3,28 @@ import { FC } from 'react';
 import { useForm } from 'react-hook-form';
 import { Link, useNavigate } from 'react-router-dom';
 import { UserRegistraion } from '../models';
+import { useMutation } from '@tanstack/react-query';
+import { UsersApi } from '../services';
+import { useSetRecoilState } from 'recoil';
+import { logedInAtom } from '../state/atoms';
 
 
 const RegistrationPage: FC = () => {
+  const setLogedIn = useSetRecoilState(logedInAtom);
+
+  const { mutate: registerUser } = useMutation({
+    mutationFn: (body: UserRegistraion) => UsersApi.registerUser(body),
+    onSuccess: () => {
+      console.log('User registration successful!');
+      setLogedIn(true);
+      navigate(`/`)
+    }
+  });
+
   const {register, handleSubmit} = useForm<UserRegistraion>();
-  const onSubmit = (data: UserRegistraion) => console.log(data);
+  const onSubmit = (data: UserRegistraion) => registerUser(data);
   const navigate = useNavigate();
+
 
   return (
     <>
@@ -19,7 +35,6 @@ const RegistrationPage: FC = () => {
           <form className="form" onSubmit={handleSubmit(onSubmit)}>
             <TextField
               required
-              id="outlined-required"
               label="First name"
               type='text'
               defaultValue=""
@@ -28,7 +43,6 @@ const RegistrationPage: FC = () => {
             />
             <TextField
               required
-              id="outlined-required"
               label="Last name"
               type='text'
               defaultValue=""
@@ -37,7 +51,6 @@ const RegistrationPage: FC = () => {
             />
             <TextField
               required
-              id="outlined-required"
               label="Phone number"
               type='phone'
               defaultValue=""
@@ -46,7 +59,6 @@ const RegistrationPage: FC = () => {
             />
             <TextField
               required
-              id="outlined-required"
               label="Email"
               type='email'
               defaultValue=""
@@ -55,11 +67,10 @@ const RegistrationPage: FC = () => {
             />
             <TextField
               required
-              id="outlined-required"
               label="Password"
               type='password'
               defaultValue=""
-              { ...register('password', { required: true })}
+              { ...register('hashedPassword', { required: true })}
               className='form-textInput'
             />
             <Button variant="contained" type='submit' className='login-button text-regular'>Register</Button>

@@ -1,11 +1,22 @@
 import { FC } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { logedInAtom } from '../state/atoms';
 import { useRecoilState } from 'recoil';
+import { useMutation } from '@tanstack/react-query';
+import { UsersApi } from '../services';
 
 const Navbar: FC = () => {
-
   const [logedIn, setLogedIn] = useRecoilState(logedInAtom);
+  const navigate = useNavigate();
+
+  const { mutate: logoutUser } = useMutation({
+    mutationFn: () => UsersApi.logoutUser(),
+    onSuccess: () => {
+      console.log('User logout successful!');
+      setLogedIn(false);
+      navigate(`/`);
+    }
+  });
 
   return (
     <nav className='navbar'>
@@ -20,7 +31,7 @@ const Navbar: FC = () => {
         }
       </div>
       {logedIn ? 
-        <button className='navbar__login navbar__button text-regular' onClick={() => setLogedIn(false)}>
+        <button className='navbar__login navbar__button text-regular' onClick={() => logoutUser()}>
           Logout
         </button> : 
         <Link to='/login' className='navbar__login navbar__button text-regular'>Login</Link>
