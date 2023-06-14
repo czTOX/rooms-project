@@ -1,4 +1,4 @@
-import { UserLogin, UserRegistraion, ResponseSingle, ResponseMulti, Room, User, Booking } from "../models";
+import { UserLogin, UserRegistraion, ResponseSingle, ResponseMulti, Room, User, BookingResponse, MyRoomsResponse } from "../models";
 import axiosInstance from "./base";
 
 
@@ -17,17 +17,17 @@ export const registerUser = async (content: UserRegistraion): Promise<ResponseSi
     return response.data;
 }
 
-export const getMyRooms = async (): Promise<ResponseMulti<Room>> => {
+export const getMyRooms = async (): Promise<ResponseSingle<MyRoomsResponse>> => {
     const response = await axiosInstance.get(`/users/rooms`);
     return response.data;
 }
 
-export const getBookings = async (): Promise<ResponseMulti<Booking>> => {
+export const getBookings = async (): Promise<ResponseSingle<BookingResponse>> => {
     const response = await axiosInstance.get(`/users/bookings`);
     return response.data;
 }
 
-export const getBookingsHistory = async (): Promise<ResponseMulti<Booking>> => {
+export const getBookingsHistory = async (): Promise<ResponseSingle<BookingResponse>> => {
     const response = await axiosInstance.get(`/users/bookings/history`);
     return response.data;
 }

@@ -12,6 +12,8 @@ const MyRoomsPage: FC = () => {
     queryFn: () => UsersApi.getMyRooms(),
   });
 
+  console.log(myRooms)
+
   return (
     <>
       <div className="header-container">
@@ -24,7 +26,7 @@ const MyRoomsPage: FC = () => {
         </Button>
       </div>
       <div className="rooms">
-        {myRooms?.data.map((room) => <RoomSimpleView key={room.id} {...room} />)}
+        {myRooms?.data.rooms.map((room) => <RoomSimpleView key={room.id} {...room} />)}
       </div>
     </>
   );

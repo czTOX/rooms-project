@@ -2,6 +2,7 @@ import { Button } from '@mui/material';
 import { FC } from 'react';
 import { Link } from 'react-router-dom';
 import { Booking } from '../models';
+import Moment from 'moment';
 
 const RoomDetailView: FC<Booking> = (props: Booking) => {
   return (
@@ -9,15 +10,16 @@ const RoomDetailView: FC<Booking> = (props: Booking) => {
       <img src="assets/room-example.jpg" alt="room" className='room-view__photo' />
       <div className="room-view-info">
         <div className="room-view-info__left">
-          <span className="room-view-info__title text-bold">{props.startDate + " - " + props.endDate}</span>
+          <h3 className="room-view__title text-bold">{props.room.caption}</h3>
+          <span className="room-view__date text-regular">{Moment(props.startDate).format('MM.DD.YYYY') + " - " + Moment(props.endDate).format('MM.DD.YYYY')}</span>
         </div>
         <div className="room-view-info__right">
           <span className="room-view-info__price text-semibold">{props.totalPrice} Kč</span>
-          <Button variant="contained" className='room-view-info__button'>
-            <Link to={`/rooms/&{id}`}>
+          {/* <Button variant="contained" className='room-view-info__button'>
+            <Link to={`/rooms/${props.roomId}`}>
               Detail
             </Link>
-          </Button>
+          </Button> */}
         </div>
       </div>
     </div>

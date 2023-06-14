@@ -4,9 +4,9 @@ import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import RoomDetailCarousel from '../components/RoomDetailCarousel';
 import "react-responsive-carousel/lib/styles/carousel.min.css";
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useMutation, useQuery } from '@tanstack/react-query';
-import { BookingsApi, RoomsApi } from '../services';
+import { BookingsApi, LocationApi, RoomsApi } from '../services';
 import { NewBooking } from '../models';
 import moment from 'moment';
 import Moment from 'moment';
@@ -18,6 +18,7 @@ const RoomDetailPage: FC = () => {
   const { id } = useParams();
   const logedIn = useRecoilValue(logedInAtom);
   const filterDates = useRecoilValue(filterDatesAtom);
+  const navigate = useNavigate();
   
   const { data: room } = useQuery({
     queryKey: ['room', id],
@@ -28,7 +29,8 @@ const RoomDetailPage: FC = () => {
   const { mutate: bookRoom } = useMutation({
     mutationFn: (body: NewBooking) => BookingsApi.bookRoom(body),
     onSuccess: () => {
-      console.log('User login successful!');
+      alert("Booking was successful");
+      navigate('/my-bookings');
     }
   });
 
@@ -37,6 +39,7 @@ const RoomDetailPage: FC = () => {
       startDate: filterDates.startDate ? filterDates.startDate.toISOString() : "",
       endDate: filterDates.endDate ? filterDates.endDate.toISOString() : "",
       totalPrice: totalPrice,
+      roomId: room ? room?.data.id : "",
     }
     if (logedIn) {
       bookRoom(body);
@@ -55,7 +58,6 @@ const RoomDetailPage: FC = () => {
       if(diffDuration.days() > 0) {
         setTotalPrice(diffDuration.days() * room?.data.pricePerNight);
       }
-      console.log(filterDates)
     }
   }, []);
 
@@ -74,7 +76,7 @@ const RoomDetailPage: FC = () => {
         <div className="room-info">
           <div className="room-info__basic">
             <span className="room-info__desc text-regular">{room?.data.description}</span>
-            <span className="room-info__location text-regular">{room?.data.locationId}</span>
+            <span className="room-info__location text-regular">{room?.data.location.city}</span>
             <span className="room-info__price text-regular">Price per night: <strong>{room?.data.pricePerNight} Kč</strong></span>
           </div>
           <div className="room-info__order-summary">

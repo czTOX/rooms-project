@@ -1,19 +1,37 @@
 import { z } from "zod";
 
-export const NewBookingSchema = z.object({
-    startDate: z.string(),
-    endDate: z.string(),
-    totalPrice: z.number(),
-})
+export interface BookingResponse {
+    id: string;
+    hashedPassword: string;
+    email: string;
+    firstName: string;
+    lastName: string;
+    phoneNumber: string;
+    bookings: [Booking]
+}
 
-export const BookingSchema = z.object({
-    id: z.string(),
-    startDate: z.string(),
-    endDate: z.string(),
-    totalPrice: z.number(),
-    userId: z.string(),
-    roomId: z.string(),
-})
+export interface Booking {
+    id: string;
+    startDate: string;
+    endDate: string;
+    totalPrice: number;
+    userId: string;
+    roomId: string;
+    room: {
+        id: string;
+        caption: string;
+        description: string;
+        pricePerNight: number;
+        photosUrls: string;
+        locationId: string;
+        userId: string;
+    }
+}
 
-export type NewBooking = z.infer<typeof NewBookingSchema>;
-export type Booking = z.infer<typeof BookingSchema>;
+export interface NewBooking {
+    startDate: string;
+    endDate: string;
+    totalPrice: number;
+    roomId: string;
+    images: string;
+}

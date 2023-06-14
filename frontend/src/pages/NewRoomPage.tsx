@@ -87,10 +87,23 @@ const NewRoomPage: FC = () => {
           { ...register('country', { required: true })}
           className='form-textInput'
         />
-        <Button variant="contained" type='submit' className='form-button text-regular'>Add more photos</Button>
-        <div className="form-photos">
+        <input
+          accept="image/*"
+          className='form-button text-regular'
+          style={{ display: 'none' }}
+          id="raised-button-file"
+          multiple
+          type="file"
+          { ...register('images', { required: true })}
+        />
+        <label htmlFor="raised-button-file">
+          <Button variant="contained" component="span" className='form-button text-regular'>
+            Add photos
+          </Button>
+        </label> 
+        {/* <div className="form-photos">
           {photos.map((photo, index) => <NewRoomPhoto key={`photo-${index}`} />)}
-        </div>
+        </div> */}
         <Button variant="contained" type='submit' className='form-button form-submit text-regular'>Add new room</Button>
       </form>
     </>
