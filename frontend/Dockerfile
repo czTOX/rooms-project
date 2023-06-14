@@ -1,5 +1,5 @@
 # Set the base image to node:12-alpine
-FROM 20.3-alpine3.17 as build
+FROM node:20.3-alpine3.17 as build
 
 # Specify where our app will live in the container
 WORKDIR /app
