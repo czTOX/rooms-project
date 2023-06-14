@@ -49,3 +49,12 @@ typecheck-backend:
    - cd backend
    - npm ci --cache /npm/npm-cache --no-audit --prefer-offline
    - npx tsc --noEmit
+
+deploy:
+  image: kroniak/ssh-client
+  before_script:
+    - echo "deploying app"
+  script:
+    - chmod 400 $SSH_PRIVATE_KEY
+    - ssh -o StrictHostKeyChecking=no -i $SSH_PRIVATE_KEY $PROD_SERVER_USER@$PROD_SERVER_ADDRESS "cd rooms && git pull && docker compose up --build --remove-orphans"
+
