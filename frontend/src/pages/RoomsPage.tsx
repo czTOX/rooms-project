@@ -14,7 +14,6 @@ const RoomsPage: FC = () => {
   const { mutate: filterRooms } = useMutation({
     mutationFn: (body: Filter) => RoomsApi.getFiltered({...body}),
     onSuccess: (res) => {
-      console.log('User registration successful!');
       setRooms(res.data);
     }
   });
@@ -35,7 +34,7 @@ const RoomsPage: FC = () => {
     data.endDate = endDate ? (Moment(endDate).format('MM-DD-YYYY')) : "";
     data.location = location;
     data.sort = sort;
-    console.log(data.startDate)
+    console.log(data)
     filterRooms(data);
   };
   const [rooms, setRooms] = useState<Array<Room>>();
