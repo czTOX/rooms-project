@@ -1,14 +1,15 @@
 import { z } from "zod";
 
 export const NewBookingSchema = z.object({
-    startDate: z.coerce.date(),
-    endDate: z.coerce.date(),
+    startDate: z.string(),
+    endDate: z.string(),
     totalPrice: z.number(),
 })
 
 export const BookingSchema = z.object({
-    startDate: z.coerce.date(),
-    endDate: z.coerce.date(),
+    id: z.string(),
+    startDate: z.string(),
+    endDate: z.string(),
     totalPrice: z.number(),
     userId: z.string(),
     roomId: z.string(),

@@ -14,23 +14,28 @@ const NewRoomSchema = z.object({
     caption: z.string(),
     description: z.string(),
     pricePerNight: z.number(),
+    city: z.string(),
+    zip: z.string(),
+    street: z.string(),
+    country: z.string(),
     photosUrls: z.string(),
 });
 
 const FilterSchema = z.object({
-    search: z.string().nullable(),
-    location: z.string().nullable(),
-    minPrice: z.number().nullable(),
-    maxPrice: z.number().nullable(),
-    startDate: z.date().nullable(),
-    endDate: z.date().nullable(),
+    search: z.string(),
+    location: z.string(),
+    minPrice: z.string(),
+    maxPrice: z.string(),
+    startDate: z.string(),
+    endDate: z.string(),
+    sort: z.string(),
 });
 
 const FilterWithoutDateSchema = z.object({
-    search: z.string().nullable(),
-    location: z.string().nullable(),
-    minPrice: z.number().nullable(),
-    maxPrice: z.number().nullable(),
+    search: z.string(),
+    location: z.string(),
+    minPrice: z.string(),
+    maxPrice: z.string(),
 });
 
 export type Room = z.infer<typeof RoomSchema>;

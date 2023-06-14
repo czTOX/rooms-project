@@ -33,7 +33,6 @@ const NewRoomPage: FC = () => {
       <form className='new-room-form' onSubmit={handleSubmit(onSubmit)}>
         <TextField
           required
-          id="outlined-required"
           label="Caption"
           type='text'
           defaultValue=""
@@ -41,7 +40,6 @@ const NewRoomPage: FC = () => {
           className='form-textInput'
         />
         <TextField
-          id="outlined-multiline-static"
           label="Description"
           multiline
           rows={4}
@@ -51,16 +49,47 @@ const NewRoomPage: FC = () => {
         />
         <TextField
           required
-          id="outlined-required"
           label="Price per night"
           type='number'
           defaultValue=""
           { ...register('pricePerNight', { required: true })}
           className='form-textInput'
         />
+        <TextField
+          required
+          label="City"
+          type='text'
+          defaultValue=""
+          { ...register('city', { required: true })}
+          className='form-textInput'
+        />
+        <TextField
+          required
+          label="Zip code"
+          type='text'
+          defaultValue=""
+          { ...register('zip', { required: true })}
+          className='form-textInput'
+        />
+        <TextField
+          required
+          label="Street"
+          type='text'
+          defaultValue=""
+          { ...register('street', { required: true })}
+          className='form-textInput'
+        />
+        <TextField
+          required
+          label="Country"
+          type='text'
+          defaultValue=""
+          { ...register('country', { required: true })}
+          className='form-textInput'
+        />
         <Button variant="contained" type='submit' className='form-button text-regular'>Add more photos</Button>
         <div className="form-photos">
-          {photos.map(() => <NewRoomPhoto />)}
+          {photos.map((photo, index) => <NewRoomPhoto key={`photo-${index}`} />)}
         </div>
         <Button variant="contained" type='submit' className='form-button form-submit text-regular'>Add new room</Button>
       </form>

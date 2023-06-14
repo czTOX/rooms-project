@@ -24,13 +24,13 @@ const MyBookingsPage: FC = () => {
         </header>
       </div>
       <div className="rooms">
-        {activeBookings?.data.map((booking) => <RoomDetailView {...booking} />)}
+        {activeBookings?.data.map((booking) => <RoomDetailView key={booking.id} {...booking} />)}
       </div>
       <div className="bookings-history">
         <h2 className='text-semibold'>History</h2>
         <div className="content-divider"></div>
         <div className="rooms">
-          {historyBookings?.data.map((booking) => <RoomDetailView {...booking} />)}
+          {historyBookings?.data.map((booking) => <RoomDetailView key={booking.id} {...booking} />)}
         </div>
       </div>
     </>

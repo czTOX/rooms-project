@@ -12,9 +12,6 @@ const MyRoomsPage: FC = () => {
     queryFn: () => UsersApi.getMyRooms(),
   });
 
-  const rooms: any[] = ['x'];
-
-
   return (
     <>
       <div className="header-container">
@@ -27,7 +24,7 @@ const MyRoomsPage: FC = () => {
         </Button>
       </div>
       <div className="rooms">
-        {myRooms?.data.map((room) => <RoomSimpleView {...room} />)}
+        {myRooms?.data.map((room) => <RoomSimpleView key={room.id} {...room} />)}
       </div>
     </>
   );

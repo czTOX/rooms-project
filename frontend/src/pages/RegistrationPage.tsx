@@ -35,7 +35,6 @@ const RegistrationPage: FC = () => {
           <form className="form" onSubmit={handleSubmit(onSubmit)}>
             <TextField
               required
-              id="outlined-required"
               label="First name"
               type='text'
               defaultValue=""
@@ -44,7 +43,6 @@ const RegistrationPage: FC = () => {
             />
             <TextField
               required
-              id="outlined-required"
               label="Last name"
               type='text'
               defaultValue=""
@@ -53,7 +51,6 @@ const RegistrationPage: FC = () => {
             />
             <TextField
               required
-              id="outlined-required"
               label="Phone number"
               type='phone'
               defaultValue=""
@@ -62,7 +59,6 @@ const RegistrationPage: FC = () => {
             />
             <TextField
               required
-              id="outlined-required"
               label="Email"
               type='email'
               defaultValue=""
@@ -71,7 +67,6 @@ const RegistrationPage: FC = () => {
             />
             <TextField
               required
-              id="outlined-required"
               label="Password"
               type='password'
               defaultValue=""

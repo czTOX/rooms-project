@@ -35,7 +35,6 @@ const LoginPage: FC = () => {
           <form className="form" onSubmit={handleSubmit(onSubmit)}>
             <TextField
               required
-              id="outlined-required"
               label="Email"
               type='email'
               defaultValue=""
@@ -44,7 +43,6 @@ const LoginPage: FC = () => {
             />
             <TextField
               required
-              id="outlined-required"
               label="Password"
               type='password'
               defaultValue=""

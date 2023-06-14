@@ -8,7 +8,8 @@ import { useParams } from 'react-router-dom';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { BookingsApi, RoomsApi } from '../services';
 import { NewBooking } from '../models';
-import moment, { Moment } from 'moment';
+import moment from 'moment';
+import Moment from 'moment';
 import { useRecoilValue } from 'recoil';
 import { logedInAtom } from '../state/atoms';
 
@@ -32,8 +33,8 @@ const RoomDetailPage: FC = () => {
 
   function tryToBookRoom() {
     var body = {
-      startDate: moment(startDate).toDate(),
-      endDate: moment(endDate).toDate(),
+      startDate: Moment(startDate).format('MM-DD-YYYY'),
+      endDate: Moment(endDate).format('MM-DD-YYYY'),
       totalPrice: totalPrice,
     }
     if (logedIn) {
@@ -43,13 +44,13 @@ const RoomDetailPage: FC = () => {
     }
   }
 
-  const [startDate, setStartDate] = useState<Moment | null>();
-  const [endDate, setEndDate] = useState<Moment | null>();
+  const [startDate, setStartDate] = useState<Date | null>(new Date());
+  const [endDate, setEndDate] = useState<Date | null>(new Date());
   const [totalPrice, setTotalPrice] = useState(0);
 
   useEffect(() => {
     if (endDate && room) {
-      const diff = endDate.diff(startDate);
+      const diff = Moment(endDate).diff(Moment(startDate));
       const diffDuration = moment.duration(diff);
       if(diffDuration.days() > 0) {
         setTotalPrice(diffDuration.days() * room?.data.pricePerNight);

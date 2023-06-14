@@ -1,29 +1,46 @@
 import { FC, useState } from 'react';
 import RoomSimpleView from '../components/RoomSimpleView';
-import { Button, TextField } from '@mui/material';
+import { Button, FormControl, InputLabel, MenuItem, Select, TextField } from '@mui/material';
 import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { useMutation, useQuery } from '@tanstack/react-query';
-import { RoomsApi } from '../services';
+import { LocationApi, RoomsApi } from '../services';
 import { useForm } from 'react-hook-form';
-import { Filter, FilterWithoutDate, Room } from '../models';
+import { Filter, Room } from '../models';
+import Moment from 'moment';
 
 
 const RoomsPage: FC = () => {
   const { mutate: filterRooms } = useMutation({
-    mutationFn: (body: FilterWithoutDate) => RoomsApi.getFiltered({...body, startDate, endDate}),
+    mutationFn: (body: Filter) => RoomsApi.getFiltered({...body}),
     onSuccess: (res) => {
       console.log('User registration successful!');
       setRooms(res.data);
     }
   });
 
+  const { data: locations } = useQuery({
+    queryKey: ['getLocations'],
+    queryFn: () => LocationApi.getAll(),
+  });
+
+  const [location, setLocation] = useState<string>("");
+  const [sort, setSort] = useState<string>("");
   const [startDate, setStartDate] = useState<Date | null>(null);
   const [endDate, setEndDate] = useState<Date | null>(null);
 
-  const {register, handleSubmit} = useForm<FilterWithoutDate>();
-  const onSubmit = (data: FilterWithoutDate) => filterRooms(data);
+  const {register, handleSubmit} = useForm<Filter>();
+  const onSubmit = (data: Filter) => {
+    data.startDate = startDate ? (Moment(startDate).format('MM-DD-YYYY')) : "";
+    data.endDate = endDate ? (Moment(endDate).format('MM-DD-YYYY')) : "";
+    data.location = location;
+    data.sort = sort;
+    console.log(data.startDate)
+    filterRooms(data);
+  };
   const [rooms, setRooms] = useState<Array<Room>>();
+
+  const cities = [...new Set(locations?.data.map(q => q.city))];
 
   return (
     <>
@@ -41,23 +58,29 @@ const RoomsPage: FC = () => {
           className='filter__item'
           { ...register('search') }
         />
-        <TextField
-          id="outlined-basic"
-          label="Location"
-          variant="outlined"
-          className='filter__item'
-          { ...register('location') }
-        />
+        <FormControl className='filter__item' sx={{width: 224}}>
+          <InputLabel id="demo-simple-select-label">Location</InputLabel>
+          <Select
+            labelId="demo-simple-select-label"
+            value={location}
+            label="Location"
+            onChange={(newValue) => {
+              if(newValue != null) setLocation(newValue.target.value);
+            }}
+            className='filter__item'
+          >
+            <MenuItem value={''} key={'noCity'}>---</MenuItem>
+            {cities.map((city) => <MenuItem value={city} key={city}>{city}</MenuItem>)}
+          </Select>
+        </FormControl>
         <div className="filter__price">
           <TextField
-            id="outlined-basic"
             label="Min. price"
             variant="outlined"
             className='filter__item'
             { ...register('minPrice') }
           />
           <TextField
-            id="outlined-basic"
             label="Max. price"
             variant="outlined"
             className='filter__item'
@@ -71,7 +94,9 @@ const RoomsPage: FC = () => {
                 className='filter__item'
                 value={startDate}
                 onChange={(newValue) => {
-                  if(newValue != null) setStartDate(newValue);
+                  if(newValue != null) {
+                    setStartDate(newValue)
+                  };
                 }}
               />
               <DatePicker
@@ -87,16 +112,15 @@ const RoomsPage: FC = () => {
         <div className="sort">
           <span className="sort__title text-semibold">Sort by:</span>
           <div className="sort-options">
-            <button className="sort__item text-semibold">Cheapest</button>
-            <button className="sort__item sort__item--selected text-semibold">Most expensive</button>
-            <button className="sort__item text-semibold">Closest</button>
+            <button className={`sort__item text-semibold ${sort == 'priceAsc' ? 'sort__item--selected' : ''}`} onClick={() => {event?.preventDefault();setSort('priceAsc')}}>Cheapest</button>
+            <button className={`sort__item text-semibold ${sort == 'priceDesc' ? 'sort__item--selected' : ''}`} onClick={() => {event?.preventDefault();setSort('priceDesc')}}>Most expensive</button>
           </div>
         </div>
         <Button variant="contained" type='submit' className='filter__submit filter__item'>Show</Button>
       </form>
       <div className="content-divider"></div>
       <div className="rooms">
-        {rooms?.map((room) => <RoomSimpleView {...room} />)}
+        {rooms?.map((room) => <RoomSimpleView key={room.id} {...room} />)}
       </div>
     </>
   );
