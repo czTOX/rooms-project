@@ -1,10 +1,20 @@
 import { FC } from 'react';
 import RoomDetailView from '../components/RoomDetailView';
+import { UsersApi } from '../services';
+import { useQuery } from '@tanstack/react-query';
 
 
 const MyBookingsPage: FC = () => {
-  const activeBookings: any[] = ['x'];
-  const historyBookings: any[] = ['x'];
+  const { data: activeBookings } = useQuery({
+    queryKey: ['getBookings'],
+    queryFn: () => UsersApi.getBookings(),
+  });
+
+  const { data: historyBookings } = useQuery({
+    queryKey: ['getBookingsHistory'],
+    queryFn: () => UsersApi.getBookingsHistory(),
+  });
+
   return (
     <>
       <div className="header-container">
@@ -14,13 +24,13 @@ const MyBookingsPage: FC = () => {
         </header>
       </div>
       <div className="rooms">
-        {activeBookings.map(() => <RoomDetailView />)}
+        {activeBookings?.data.map((booking) => <RoomDetailView key={booking.id} {...booking} />)}
       </div>
       <div className="bookings-history">
         <h2 className='text-semibold'>History</h2>
         <div className="content-divider"></div>
         <div className="rooms">
-          {historyBookings.map(() => <RoomDetailView />)}
+          {historyBookings?.data.map((booking) => <RoomDetailView key={booking.id} {...booking} />)}
         </div>
       </div>
     </>
