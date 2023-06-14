@@ -3,7 +3,7 @@ import axiosInstance from "./base";
 
 
 export const getFiltered = async (filter: Filter): Promise<ResponseMulti<Room>> => {
-    const response = await axiosInstance.get('/rooms', {data: filter});
+    const response = await axiosInstance.get('/rooms', {params: filter});
     return response.data;
 }
 

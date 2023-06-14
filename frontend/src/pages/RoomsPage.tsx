@@ -34,7 +34,6 @@ const RoomsPage: FC = () => {
     data.endDate = endDate ? (Moment(endDate).format('MM-DD-YYYY')) : "";
     data.location = location;
     data.sort = sort;
-    console.log(data)
     filterRooms(data);
   };
   const [rooms, setRooms] = useState<Array<Room>>();
