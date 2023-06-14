@@ -1,13 +1,18 @@
 import { useState } from "react";
 import IconButton from "@mui/material/IconButton";
+import SearchIcon from '@mui/icons-material/Search';
 import TextField from "@mui/material/TextField";
 
-const SearchBar = ({setSearchQuery}) => (
+
+
+export const SearchBar : ({ setSearchQuery }: {
+  setSearchQuery: (value: string) => void;
+}) => JSX.Element = ({setSearchQuery}) => (
     <form>
       <TextField
         id="search-bar"
         className="text"
-        onInput={(e) => {
+        onChange={(e) => {
           setSearchQuery(e.target.value);
         }}
         label="Enter a city name"
