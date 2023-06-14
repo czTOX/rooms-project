@@ -21,24 +21,27 @@ roomsRouter.get("/:roomId", async (req, res) => {
 });
 
 roomsRouter.get("/", async (req, res) => {
-    let args: {[name: string]: string} = {}
+    let args: {[name: string]: string | undefined} = {}
     if (req.query.location !== undefined) {
-        args.location = req.query.location.toString();
+        args.location = req.query.location.toString().length > 0 ? req.query.location.toString() : undefined;
     }
     if (req.query.sort) {
-        args.sort = req.query.sort.toString();
+        args.sort = req.query.sort.toString().length > 0 ? req.query.sort.toString() : undefined;
     }
     if (req.query.startDate) {
-        args.startDate = req.query.startDate.toString();
+        args.startDate = req.query.startDate.toString().length > 0 ? req.query.startDate.toString() : undefined;
     }
     if (req.query.endDate) {
-        args.endDate = req.query.endDate.toString();
+        args.endDate = req.query.endDate.toString().length > 0 ? req.query.endDate.toString() : undefined;
     }
     if (req.query.minPrice) {
-        args.minPrice = req.query.minPrice.toString();
+        args.minPrice = req.query.minPrice.toString().length > 0 ? req.query.minPrice.toString() : undefined;
     }
     if (req.query.maxPrice) {
-        args.maxPrice = req.query.maxPrice.toString();
+        args.maxPrice = req.query.maxPrice.toString().length > 0 ? req.query.maxPrice.toString() : undefined;
+    }
+    if (req.query.search) {
+        args.search = req.query.search.toString().length > 0 ? req.query.search.toString() : undefined;
     }
     /*if (req.query.guests) {
         args.push({guests: req.query.guests});

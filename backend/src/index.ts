@@ -1,7 +1,7 @@
 import express from "express";
 import cors from "cors";
 import * as dotenv from "dotenv";
-import { userController, roomsController, locationsController } from "./controller";
+import {userController, roomsController, locationsController, bookingsController} from "./controller";
 import { User } from "./models"
 import cookieParser from "cookie-parser";
 import session from "./middleware/session"
@@ -22,5 +22,6 @@ api.use(cors());
 api.use("/users", userController);
 api.use("/rooms", roomsController);
 api.use("/locations", locationsController);
+api.use("/bookings", bookingsController);
 
 api.listen(port, () => console.log(`Listening on port ${port}`));

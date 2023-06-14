@@ -53,17 +53,18 @@ export const getSingleByEmailAuth = async(email: string): Promise<Result<UserAut
 
 export const getUserWithRooms = async(id: string): Promise<Result<User | null, Error>> => {
     try {
-        const user = await prisma.user.findFirst(
-            {
-                where: { id: id },
-                include: {
-                    rooms: {
-                        include: {
-                            location: true
-                        }
+        const query = {
+            where: { id: id },
+            include: {
+                rooms: {
+                    include: {
+                        location: true,
                     }
                 }
-            });
+            }
+        }
+
+        const user = await prisma.user.findFirst(query);
 
         if(!user){
             return Result.err(new Error("User does not exist"));
@@ -84,7 +85,7 @@ export const getUserWithBookings = async(id: string, history: boolean): Promise<
                 include: {
                     bookings: {
                         where: {
-                            startDate: {}
+                            endDate: {}
                         },
                         include: {
                             room: true,
@@ -100,9 +101,41 @@ export const getUserWithBookings = async(id: string, history: boolean): Promise<
             }
 
         if (history) {
-            query.include.bookings.where.startDate = {lt: new Date()}
+            query.include.bookings.where.endDate = {lt: new Date()}
         } else {
-            query.include.bookings.where.startDate = {gte: new Date()}
+            query.include.bookings.where.endDate = {gte: new Date()}
+        }
+
+        const user = await prisma.user.findFirst(query);
+
+        if(!user){
+            return Result.err(new Error("User does not exist"));
+        }
+        return Result.ok(user);
+    } catch (error) {
+        if (error instanceof PrismaClientKnownRequestError) {
+            return Result.err(error);
+        }
+        return Result.err(new Error(`Unknown error: ${error}`));
+    }
+}
+
+export const getUserWithRoomsBookings = async(id: string): Promise<Result<User | null, Error>> => {
+    try {
+        const query = {
+            where: { id: id },
+            include: {
+                rooms: {
+                    include: {
+                        location: true,
+                        bookings: {
+                            orderBy: {
+                                startDate: 'desc' as const
+                            }
+                        }
+                    }
+                }
+            }
         }
 
         const user = await prisma.user.findFirst(query);

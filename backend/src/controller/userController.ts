@@ -66,7 +66,7 @@ userRouter.get("/:userId/rooms",  async (req, res) => {
     return resultOk(user.value, res, `Listed user with rooms with ID ${userId}`)
 });
 
-userRouter.get("/:userId/bookings/:history?", async (req, res) => {
+userRouter.get("/rooms",  async (req, res) => {
     if(!req.session.user){
         return resultError(401, res, "Unauthorized");
     }
@@ -74,18 +74,31 @@ userRouter.get("/:userId/bookings/:history?", async (req, res) => {
     if (user.isErr) {
         return resultError(500, res, user.error.message);
     }
-    const userId = req.params.userId
-    if (userId !== user.value?.id) {
-        return resultError(500, res, "You cannot see other users bookings");
+
+    const userRooms = await usersRepository.getUserWithRooms(user.value!.id)
+    if (userRooms.isErr) {
+        return resultError(500, res, userRooms.error.message);
+    }
+
+    return resultOk(userRooms.value, res, `Listed user with rooms with ID ${user.value!.id}`)
+});
+
+userRouter.get("/bookings/:history?", async (req, res) => {
+    if(!req.session.user){
+        return resultError(401, res, "Unauthorized");
+    }
+    const user= await usersRepository.getSingleByEmail(req.session.user.email!);
+    if (user.isErr) {
+        return resultError(500, res, user.error.message);
     }
 
     let userBookings;
-    let outputText = `Listed user with bookings. ID: ${userId}`;
+    let outputText = `Listed user with bookings. ID: ${user.value?.id}`;
     if (req.params.history == null) {
-        userBookings = await usersRepository.getUserWithBookings(userId, false);
+        userBookings = await usersRepository.getUserWithBookings(user.value!.id, false);
     } else if (req.params.history === 'history') {
-        userBookings = await usersRepository.getUserWithBookings(userId, true);
-        outputText = `Listed user with history bookings. ID: ${userId}`;
+        userBookings = await usersRepository.getUserWithBookings(user.value!.id, true);
+        outputText = `Listed user with history bookings. ID: ${user.value?.id}`;
     } else {
         return resultError(404, res, "Path not found");
     }
@@ -95,6 +108,5 @@ userRouter.get("/:userId/bookings/:history?", async (req, res) => {
     }
     return resultOk(userBookings.value, res, outputText);
 });
-
 
 export default userRouter;
