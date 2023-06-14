@@ -12,7 +12,7 @@ declare module "express-session" {
 
 dotenv.config();
 const api = express();
-const port = process.env.BACKEND_PORT ?? 4000;
+const port = parseInt(process.env.BACKEND_PORT ?? "4000");
 
 api.use(express.json());
 api.use(session());
@@ -23,4 +23,4 @@ api.use("/users", userController);
 api.use("/rooms", roomsController);
 api.use("/locations", locationsController);
 
-api.listen(port, () => console.log(`Listening on port ${port}`));
+api.listen(port, '127.0.0.1' ,() => console.log(`Listening on port ${port}`));
