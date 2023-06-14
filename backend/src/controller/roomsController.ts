@@ -53,9 +53,14 @@ roomsRouter.get("/", async (req, res) => {
     if (req.query.search) {
         args.search = req.query.search.toString().length > 0 ? req.query.search.toString() : undefined;
     }
-    /*if (req.query.guests) {
-        args.push({guests: req.query.guests});
-    }*/
+
+    if ((args.endDate != undefined && args.startDate !== undefined)) {
+        if (args.endDate <= args.startDate) {
+            return resultError(500, res, "End date is before or same as start date");
+        } else if (Date.parse(args.endDate) < new Date().setHours(0,0,0,0) || Date.parse(args.startDate) < new Date().setHours(0,0,0,0)) {
+            return resultError(500, res, "Cannot book for date before today");
+        }
+    }
 
     const rooms = await roomsRepository.getAll(args);
     if (rooms!.isErr) {

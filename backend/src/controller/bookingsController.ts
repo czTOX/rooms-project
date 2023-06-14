@@ -65,6 +65,14 @@ bookingsRouter.post("/", validation({body: BookingPostSchema}),async (req, res) 
         return resultError(500, res, "User not found");
     }
 
+    if ((req.body.endDate != undefined && req.body.startDate !== undefined)) {
+        if (req.body.endDate <= req.body.startDate) {
+            return resultError(500, res, "End date is before or same as start date");
+        } else if (req.body.endDate.getTime() < new Date().setHours(0,0,0,0) || req.body.startDate.getTime() < new Date().setHours(0,0,0,0)) {
+            return resultError(500, res, "Cannot book for date before today");
+        }
+    }
+
     const booking = await bookingsRepository.createSingle(
         {...req.body, userId: user.value!.id}
     );
