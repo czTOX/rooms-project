@@ -17,6 +17,19 @@ build-frontend:
       - build
       - node_modules/
 
+build-backend:
+  script: 
+    - echo "Start building App"
+    - cd backend
+    - npm install
+    - npx tsc -p .
+    - echo "Build successfully!"
+  artifacts:
+    expire_in: 1 hour
+    paths:
+      - build
+      - node_modules/
+
 
 lint-backend:
   script:
