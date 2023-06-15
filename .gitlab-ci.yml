@@ -1,6 +1,7 @@
 deploy:
   tags:
     - shared-fi
+  image: ubuntu
   before_script:
     - echo "deploying app"
   script:
