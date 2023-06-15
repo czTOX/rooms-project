@@ -35,7 +35,13 @@ export const createSingle = async ( data: RoomCreate ): Promise<Result<Room | nu
                 },
             },
             include: {
-                user: true,
+                user: {
+                    select: {
+                        firstName: true,
+                        lastName: true,
+                        id: true,
+                    }
+                },
                 location: true,
             },
         });

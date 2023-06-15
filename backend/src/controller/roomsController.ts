@@ -13,10 +13,10 @@ const storage = multer.diskStorage({
     destination: "uploads/",
     filename: function(req, file, callback) {
         callback(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname));
-    }
+    },
 });
 
-const upload = multer({storage});
+const upload = multer({storage, limits: { fileSize: 10*1024*1024 }});
 
 roomsRouter.get("/:roomId", async (req, res) => {
     const roomId = req.params.roomId
@@ -79,13 +79,8 @@ roomsRouter.post("/", upload.array("images"), validation({body: RoomPostSchema})
         return resultError(500, res, user.error.message);
     }
 
-    let photosUrls = "";
-    if (req.files) {
-        photosUrls = (req.files as Express.Multer.File[]).map((file) => file.filename).join(';');
-    }
-
     const room = await roomsRepository.createSingle(
-        { ...req.body, userId: user.value!.id, photosUrls});
+        { ...req.body, userId: user.value!.id});
     if (room.isErr) {
         return resultError(500, res, room.error.message);
     }
