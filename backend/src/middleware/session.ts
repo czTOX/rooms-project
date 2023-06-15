@@ -1,13 +1,14 @@
-import expressSession from "express-session";
+import expressSession from 'express-session';
 
-const session = () => expressSession({
-    secret: "rooms",
+const session = () =>
+  expressSession({
+    secret: 'rooms',
     resave: false,
     saveUninitialized: true,
     cookie: {
-        httpOnly: true,
-        secure: false
-    }
-});
+      httpOnly: true,
+      secure: false,
+    },
+  });
 
 export default session;
