@@ -13,17 +13,23 @@ export const getSingle = async (roomId: string): Promise<ResponseSingle<Room>> =
 }
 
 export const createRoom = async (content: NewRoom): Promise<ResponseSingle<Room>> => {
+    // const formData = new FormData();
+    // const newStruc = {
+    //     caption: content.caption,
+    //     description: content.description,
+    //     pricePerNight: content.pricePerNight,
+    //     location: content.location
+    // }
+    // const bodyJson = JSON.stringify(newStruc)
+    // const bodyB =  new Blob([bodyJson], {
+    //     type: 'application/json',
+    //     })
 
-    const formData = new FormData();
-    formData.append("caption", content.caption);
-    formData.append("description", content.description);
-    formData.append("pricePerNight", content.pricePerNight.toString());
-    formData.append("location", JSON.stringify(content.location));
-    for (let i = 0; i < content.images.length; i++) {
-        const image = content.images[i];
-        formData.append("images", image);
-    }
-    const response = await axiosInstance.post('/rooms', formData);
+    // for (let i = 0; i < content.images.length; i++) {
+    //     const image = content.images[i];
+    //     formData.append("images", image);
+    // }
+    const response = await axiosInstance.post('/rooms', {...content});
     return response.data;
 }
 

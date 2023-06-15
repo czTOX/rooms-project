@@ -55,7 +55,8 @@ export interface NewRoom{
         street: string,
         country: string,
     },
-    images: FileList,
+    photosUrls: string;
+    //images: FileList,
 }
 
 const FilterSchema = z.object({
