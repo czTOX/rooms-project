@@ -1,16 +1,16 @@
-import { useRecoilState } from "recoil";
+import { useRecoilState } from 'recoil';
 import { logedInAtom } from './state/atoms';
-import Navbar from './components/Navbar'
-import { Route, Routes } from "react-router-dom";
-import LoginPage from "./pages/LoginPage";
-import MyBookingsPage from "./pages/MyBookingsPage";
-import MyRoomsPage from "./pages/MyRoomsPage";
-import NewRoomPage from "./pages/NewRoomPage";
-import RegistrationPage from "./pages/RegistrationPage";
-import RoomDetailPage from "./pages/RoomDetailPage";
-import RoomsPage from "./pages/RoomsPage";
-import OfferRoom from "./pages/OfferRoom";
-import "react-responsive-carousel/lib/styles/carousel.min.css";
+import Navbar from './components/Navbar';
+import { Route, Routes } from 'react-router-dom';
+import LoginPage from './pages/LoginPage';
+import MyBookingsPage from './pages/MyBookingsPage';
+import MyRoomsPage from './pages/MyRoomsPage';
+import NewRoomPage from './pages/NewRoomPage';
+import RegistrationPage from './pages/RegistrationPage';
+import RoomDetailPage from './pages/RoomDetailPage';
+import RoomsPage from './pages/RoomsPage';
+import OfferRoom from './pages/OfferRoom';
+import 'react-responsive-carousel/lib/styles/carousel.min.css';
 
 export default function App() {
   const [logedIn, setLogedIn] = useRecoilState(logedInAtom);

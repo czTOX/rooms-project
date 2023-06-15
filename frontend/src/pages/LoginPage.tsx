@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import { useForm } from "react-hook-form";
+import { useForm } from 'react-hook-form';
 import { UserLogin } from '../models';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
@@ -8,7 +8,6 @@ import { useMutation } from '@tanstack/react-query';
 import { UsersApi } from '../services';
 import { logedInAtom } from '../state/atoms';
 import { useSetRecoilState } from 'recoil';
-
 
 const LoginPage: FC = () => {
   const setLogedIn = useSetRecoilState(logedInAtom);
@@ -19,10 +18,10 @@ const LoginPage: FC = () => {
       console.log('User login successful!');
       setLogedIn(true);
       navigate(`/`);
-    }
+    },
   });
 
-  const {register, handleSubmit} = useForm<UserLogin>();
+  const { register, handleSubmit } = useForm<UserLogin>();
   const onSubmit = (data: UserLogin) => loginUser(data);
   const navigate = useNavigate();
 
@@ -36,26 +35,30 @@ const LoginPage: FC = () => {
             <TextField
               required
               label="Email"
-              type='email'
+              type="email"
               defaultValue=""
-              { ...register('email', { required: true })}
-              className='form-textInput'
+              {...register('email', { required: true })}
+              className="form-textInput"
             />
             <TextField
               required
               label="Password"
-              type='password'
+              type="password"
               defaultValue=""
-              { ...register('hashedPassword', { required: true })}
-              className='form-textInput'
+              {...register('hashedPassword', { required: true })}
+              className="form-textInput"
             />
-            <Link to='/registration' className='form__link text-regular'>I don't have a account yet!</Link>
-            <Button variant="contained" type='submit' className='login-button'>Let me in!</Button>
+            <Link to="/registration" className="form__link text-regular">
+              I don't have a account yet!
+            </Link>
+            <Button variant="contained" type="submit" className="login-button">
+              Let me in!
+            </Button>
           </form>
         </div>
       </div>
     </>
   );
-}
+};
 
 export default LoginPage;

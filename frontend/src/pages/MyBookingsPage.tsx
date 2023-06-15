@@ -3,7 +3,6 @@ import RoomDetailView from '../components/RoomDetailView';
 import { UsersApi } from '../services';
 import { useQuery } from '@tanstack/react-query';
 
-
 const MyBookingsPage: FC = () => {
   const { data: activeBookings } = useQuery({
     queryKey: ['getBookings'],
@@ -24,17 +23,21 @@ const MyBookingsPage: FC = () => {
         </header>
       </div>
       <div className="rooms">
-        {activeBookings?.data.bookings.map((booking) => <RoomDetailView key={booking.id} {...booking} />)}
+        {activeBookings?.data.bookings.map((booking) => (
+          <RoomDetailView key={booking.id} {...booking} />
+        ))}
       </div>
       <div className="bookins-history">
-        <h2 className='text-semibold'>History</h2>
+        <h2 className="text-semibold">History</h2>
         <div className="content-divider"></div>
         <div className="rooms">
-          {historyBookings?.data.bookings.map((booking) => <RoomDetailView key={booking.id} {...booking} />)}
+          {historyBookings?.data.bookings.map((booking) => (
+            <RoomDetailView key={booking.id} {...booking} />
+          ))}
         </div>
       </div>
     </>
   );
-}
+};
 
 export default MyBookingsPage;

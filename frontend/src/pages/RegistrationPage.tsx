@@ -8,7 +8,6 @@ import { UsersApi } from '../services';
 import { useSetRecoilState } from 'recoil';
 import { logedInAtom } from '../state/atoms';
 
-
 const RegistrationPage: FC = () => {
   const setLogedIn = useSetRecoilState(logedInAtom);
 
@@ -17,14 +16,13 @@ const RegistrationPage: FC = () => {
     onSuccess: () => {
       console.log('User registration successful!');
       setLogedIn(true);
-      navigate(`/`)
-    }
+      navigate(`/`);
+    },
   });
 
-  const {register, handleSubmit} = useForm<UserRegistraion>();
+  const { register, handleSubmit } = useForm<UserRegistraion>();
   const onSubmit = (data: UserRegistraion) => registerUser(data);
   const navigate = useNavigate();
-
 
   return (
     <>
@@ -36,49 +34,55 @@ const RegistrationPage: FC = () => {
             <TextField
               required
               label="First name"
-              type='text'
+              type="text"
               defaultValue=""
-              { ...register('firstName', { required: true })}
-              className='form-textInput'
+              {...register('firstName', { required: true })}
+              className="form-textInput"
             />
             <TextField
               required
               label="Last name"
-              type='text'
+              type="text"
               defaultValue=""
-              { ...register('lastName', { required: true })}
-              className='form-textInput'
+              {...register('lastName', { required: true })}
+              className="form-textInput"
             />
             <TextField
               required
               label="Phone number"
-              type='phone'
+              type="phone"
               defaultValue=""
-              { ...register('phoneNumber', { required: true })}
-              className='form-textInput'
+              {...register('phoneNumber', { required: true })}
+              className="form-textInput"
             />
             <TextField
               required
               label="Email"
-              type='email'
+              type="email"
               defaultValue=""
-              { ...register('email', { required: true })}
-              className='form-textInput'
+              {...register('email', { required: true })}
+              className="form-textInput"
             />
             <TextField
               required
               label="Password"
-              type='password'
+              type="password"
               defaultValue=""
-              { ...register('hashedPassword', { required: true })}
-              className='form-textInput'
+              {...register('hashedPassword', { required: true })}
+              className="form-textInput"
             />
-            <Button variant="contained" type='submit' className='login-button text-regular'>Register</Button>
+            <Button
+              variant="contained"
+              type="submit"
+              className="login-button text-regular"
+            >
+              Register
+            </Button>
           </form>
         </div>
       </div>
     </>
   );
-}
+};
 
 export default RegistrationPage;

@@ -11,12 +11,11 @@ import { logedInAtom } from '../state/atoms';
 import { useForm } from 'react-hook-form';
 import { Carousel } from 'react-responsive-carousel';
 
-
 const RoomDetailPage: FC = () => {
   const { id } = useParams();
   const logedIn = useRecoilValue(logedInAtom);
   const navigate = useNavigate();
-  
+
   const { data: room } = useQuery({
     queryKey: ['getRoomOffers', id],
     queryFn: () => RoomsApi.getRoomOffers(id!),
@@ -26,27 +25,27 @@ const RoomDetailPage: FC = () => {
   const { mutate: offerRoom } = useMutation({
     mutationFn: (body: Offer) => RoomsApi.offerRoom(body, id!),
     onSuccess: () => {
-      alert("Offer was successful");
+      alert('Offer was successful');
       navigate('/my-rooms');
-    }
+    },
   });
 
   function tryToOfferRoom() {
     var body = {
-      startDate: startDate ? startDate.toISOString() : "",
-      endDate: endDate ? endDate.toISOString() : "",
-    }
+      startDate: startDate ? startDate.toISOString() : '',
+      endDate: endDate ? endDate.toISOString() : '',
+    };
     if (logedIn) {
       offerRoom(body);
     } else {
-      alert("You need to login first!")
+      alert('You need to login first!');
     }
   }
 
   const [startDate, setStartDate] = useState<Date | null>(null);
   const [endDate, setEndDate] = useState<Date | null>(null);
 
-  const {register, handleSubmit} = useForm();
+  const { register, handleSubmit } = useForm();
 
   return (
     <>
@@ -58,54 +57,72 @@ const RoomDetailPage: FC = () => {
       </div>
       <div className="room-content">
         <div className="room-carousel">
-          <Carousel showArrows={true} swipeable={true} showStatus={false} dynamicHeight={false}>
+          <Carousel
+            showArrows={true}
+            swipeable={true}
+            showStatus={false}
+            dynamicHeight={false}
+          >
             {room?.data.photosUrls.split(';').map((url) => {
               return (
                 <div>
                   <img src={url} alt={`photo-${url}`} />
                 </div>
-              )
+              );
             })}
           </Carousel>
         </div>
         <div className="room-info">
           <div className="room-info__basic">
-            <span className="room-info__desc text-regular">{room?.data.description}</span>
-            <span className="room-info__location text-regular">{room?.data.location.city + ', ' + room?.data.location.street}</span>
-            <span className="room-info__price text-regular">Price per night: <strong>{room?.data.pricePerNight} Kč</strong></span>
+            <span className="room-info__desc text-regular">
+              {room?.data.description}
+            </span>
+            <span className="room-info__location text-regular">
+              {room?.data.location.city + ', ' + room?.data.location.street}
+            </span>
+            <span className="room-info__price text-regular">
+              Price per night: <strong>{room?.data.pricePerNight} Kč</strong>
+            </span>
           </div>
-          <form className="room-info__order-summary" onSubmit={handleSubmit(tryToOfferRoom)}>
+          <form
+            className="room-info__order-summary"
+            onSubmit={handleSubmit(tryToOfferRoom)}
+          >
             <div className="filter__date">
               <LocalizationProvider dateAdapter={AdapterDayjs}>
                 <DatePicker
                   label="Date from:"
-                  className='filter__item'
+                  className="filter__item"
                   value={startDate}
                   onChange={(newValue) => {
-                  if(newValue != null) setStartDate(new Date(newValue));
+                    if (newValue != null) setStartDate(new Date(newValue));
                   }}
                   slotProps={{
                     textField: {
-                        required: true,
+                      required: true,
                     },
                   }}
                 />
                 <DatePicker
                   label="Date to:"
-                  className='filter__item'
+                  className="filter__item"
                   value={endDate}
                   onChange={(newValue) => {
-                  if(newValue != null) setEndDate(new Date(newValue));
+                    if (newValue != null) setEndDate(new Date(newValue));
                   }}
                   slotProps={{
                     textField: {
-                        required: true,
+                      required: true,
                     },
                   }}
                 />
               </LocalizationProvider>
             </div>
-            <Button variant="contained" className='book-room__button' type='submit'>
+            <Button
+              variant="contained"
+              className="book-room__button"
+              type="submit"
+            >
               Offer a room
             </Button>
           </form>
@@ -113,6 +130,6 @@ const RoomDetailPage: FC = () => {
       </div>
     </>
   );
-}
+};
 
 export default RoomDetailPage;
