@@ -11,11 +11,12 @@ export const RoomPostSchema = z.object({
         }),
         LocationCreateSchema,
     ]),
+    photosUrls: z.string({ required_error: 'Missing `photosUrls` parameter'}).nonempty(),
 });
 
 export const RoomCreateSchema = z.object({
     userId: z.string({ required_error: 'Missing `userId` parameter'}).nonempty(),
-    photosUrls: z.string({ required_error: 'Missing `photosUrls` parameter'}).nonempty(),
+
 }).merge(RoomPostSchema);
 
 export const RoomSchema = z.object({
