@@ -1,5 +1,3 @@
-import { z } from "zod";
-
 export interface BookingResponse {
     id: string;
     hashedPassword: string;

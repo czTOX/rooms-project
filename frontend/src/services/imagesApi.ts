@@ -1,4 +1,4 @@
-import { NewBooking, ResponseSingle } from "../models";
+import { ResponseSingle } from "../models";
 import axiosInstance from "./base";
 
 export const getImage = async (id: string): Promise<ResponseSingle<string>> => {

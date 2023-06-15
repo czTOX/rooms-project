@@ -1,4 +1,4 @@
-import { Room, NewRoom, ResponseMulti, ResponseSingle, Filter, Booking, BookingResponse, RoomOffers, Offer } from "../models";
+import { Room, NewRoom, ResponseMulti, ResponseSingle, Filter, RoomOffers, Offer } from "../models";
 import axiosInstance from "./base";
 
 

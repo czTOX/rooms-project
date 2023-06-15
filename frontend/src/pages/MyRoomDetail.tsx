@@ -1,26 +1,14 @@
-import { FC, useEffect, useState } from 'react';
-import { Button } from '@mui/material';
-import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import RoomDetailCarousel from '../components/RoomDetailCarousel';
+import { FC } from 'react';
 import "react-responsive-carousel/lib/styles/carousel.min.css";
-import { useNavigate, useParams } from 'react-router-dom';
-import { useMutation, useQuery } from '@tanstack/react-query';
-import { BookingsApi, LocationApi, RoomsApi } from '../services';
-import { NewBooking } from '../models';
-import moment from 'moment';
-import Moment from 'moment';
-import { useRecoilValue } from 'recoil';
-import { filterDatesAtom, logedInAtom } from '../state/atoms';
+import { useParams } from 'react-router-dom';
+import { useQuery } from '@tanstack/react-query';
+import { RoomsApi } from '../services';
 import Offer from '../components/Offer';
 import { Carousel } from 'react-responsive-carousel';
 
 
 const RoomDetailPage: FC = () => {
   const { id } = useParams();
-  const logedIn = useRecoilValue(logedInAtom);
-  const filterDates = useRecoilValue(filterDatesAtom);
-  const navigate = useNavigate();
   
   const { data: room } = useQuery({
     queryKey: ['getRoomOffers', id],

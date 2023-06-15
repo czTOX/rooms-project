@@ -1,8 +1,5 @@
 import { FC, useEffect, useState } from 'react';
 import { Button } from '@mui/material';
-import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import RoomDetailCarousel from '../components/RoomDetailCarousel';
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { useNavigate, useParams } from 'react-router-dom';
 import { useMutation, useQuery } from '@tanstack/react-query';
@@ -12,7 +9,6 @@ import moment from 'moment';
 import Moment from 'moment';
 import { useRecoilValue } from 'recoil';
 import { filterDatesAtom, logedInAtom } from '../state/atoms';
-import Offer from '../components/Offer';
 import { Carousel } from 'react-responsive-carousel';
 
 

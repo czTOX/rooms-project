@@ -1,4 +1,3 @@
-import React from "react";
 import { useRecoilState } from "recoil";
 import { logedInAtom } from './state/atoms';
 import Navbar from './components/Navbar'
@@ -11,6 +10,7 @@ import RegistrationPage from "./pages/RegistrationPage";
 import RoomDetailPage from "./pages/RoomDetailPage";
 import RoomsPage from "./pages/RoomsPage";
 import OfferRoom from "./pages/OfferRoom";
+import "react-responsive-carousel/lib/styles/carousel.min.css";
 
 export default function App() {
   const [logedIn, setLogedIn] = useRecoilState(logedInAtom);

@@ -1,17 +1,13 @@
-import { FC, useEffect, useState } from 'react';
+import { FC, useState } from 'react';
 import { Button } from '@mui/material';
 import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import RoomDetailCarousel from '../components/RoomDetailCarousel';
-import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { useNavigate, useParams } from 'react-router-dom';
 import { useMutation, useQuery } from '@tanstack/react-query';
-import { BookingsApi, LocationApi, RoomsApi } from '../services';
-import { NewBooking, Offer } from '../models';
-import moment from 'moment';
-import Moment from 'moment';
+import { RoomsApi } from '../services';
+import { Offer } from '../models';
 import { useRecoilValue } from 'recoil';
-import { filterDatesAtom, logedInAtom } from '../state/atoms';
+import { logedInAtom } from '../state/atoms';
 import { useForm } from 'react-hook-form';
 import { Carousel } from 'react-responsive-carousel';
 

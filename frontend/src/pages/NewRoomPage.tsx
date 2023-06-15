@@ -2,7 +2,6 @@ import { FC } from 'react';
 import { NewRoom } from '../models/roomTypes';
 import { useForm } from 'react-hook-form';
 import { Button, TextField } from '@mui/material';
-import NewRoomPhoto from '../components/NewRoomPhoto';
 import { useMutation } from '@tanstack/react-query';
 import { RoomsApi } from '../services';
 import { useNavigate } from 'react-router-dom';

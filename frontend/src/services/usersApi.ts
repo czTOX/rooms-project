@@ -1,4 +1,4 @@
-import { UserLogin, UserRegistraion, ResponseSingle, ResponseMulti, Room, User, BookingResponse, MyRoomsResponse } from "../models";
+import { UserLogin, UserRegistraion, ResponseSingle, User, BookingResponse, MyRoomsResponse } from "../models";
 import axiosInstance from "./base";
 
 

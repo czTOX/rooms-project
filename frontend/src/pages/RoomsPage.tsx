@@ -7,8 +7,7 @@ import { useMutation, useQuery } from '@tanstack/react-query';
 import { LocationApi, RoomsApi } from '../services';
 import { useForm } from 'react-hook-form';
 import { Filter, Room } from '../models';
-import dayjs from 'dayjs';
-import { useRecoilState, useSetRecoilState } from 'recoil';
+import { useSetRecoilState } from 'recoil';
 import { filterDatesAtom } from '../state/atoms';
 
 
