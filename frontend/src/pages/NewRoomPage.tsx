@@ -60,7 +60,7 @@ const NewRoomPage: FC = () => {
           label="City"
           type='text'
           defaultValue=""
-          { ...register('city', { required: true })}
+          { ...register('location.city', { required: true })}
           className='form-textInput'
         />
         <TextField
@@ -68,7 +68,7 @@ const NewRoomPage: FC = () => {
           label="Zip code"
           type='text'
           defaultValue=""
-          { ...register('zip', { required: true })}
+          { ...register('location.zip', { required: true })}
           className='form-textInput'
         />
         <TextField
@@ -76,7 +76,7 @@ const NewRoomPage: FC = () => {
           label="Street"
           type='text'
           defaultValue=""
-          { ...register('street', { required: true })}
+          { ...register('location.street', { required: true })}
           className='form-textInput'
         />
         <TextField
@@ -84,7 +84,7 @@ const NewRoomPage: FC = () => {
           label="Country"
           type='text'
           defaultValue=""
-          { ...register('country', { required: true })}
+          { ...register('location.country', { required: true })}
           className='form-textInput'
         />
         <input

@@ -49,10 +49,12 @@ export interface NewRoom{
     caption: string,
     description: string,
     pricePerNight: number,
-    city: string,
-    zip: string,
-    street: string,
-    country: string,
+    location: {
+        city: string,
+        zip: string,
+        street: string,
+        country: string,
+    },
     images: FileList,
 }
 
