@@ -1,0 +1,14 @@
+version: '3.8'
+services:
+  app-frontend:
+    build:
+      context: frontend
+    restart: always
+    network_mode: "host"
+  app-backend:
+    build:
+      context: backend
+    restart: always
+    network_mode: "host"
+    environment:
+     - DATABASE_URL=file:./database.db
