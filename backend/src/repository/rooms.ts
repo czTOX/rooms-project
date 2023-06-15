@@ -1,6 +1,6 @@
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime";
 import { Result } from '@badrap/result';
-import {Room, RoomCreate, RoomPost, RoomPostSchema} from "../models";
+import {Room, RoomCreate} from "../models";
 import prisma from "../client";
 import Dict = NodeJS.Dict;
 import { locationsRepository } from "."

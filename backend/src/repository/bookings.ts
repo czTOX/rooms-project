@@ -1,6 +1,6 @@
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime";
 import { Result } from '@badrap/result';
-import {Booking, BookingCreate, BookingUser, User} from "../models";
+import {Booking, BookingCreate, BookingUser} from "../models";
 import prisma from "../client";
 
 export const createSingle = async ( data: BookingCreate ): Promise<Result<Booking | null, Error>> => {
@@ -76,10 +76,24 @@ export const getSingleById = async(id: string): Promise<Result<BookingUser | nul
                 include: {
                     room: {
                         include: {
-                            user: true
+                            user: {
+                                select: {
+                                    firstName: true,
+                                    lastName: true,
+                                    id: true,
+                                }
+                            }
                         }
                     },
-                    user: true
+                    user: {
+                        select: {
+                            firstName: true,
+                            lastName: true,
+                            id: true,
+                            phoneNumber: true,
+                            email: true
+                        }
+                    }
                 }
             });
         if(!booking){

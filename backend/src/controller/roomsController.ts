@@ -1,5 +1,5 @@
 import { resultOk, resultError } from '../middleware/resultHandler';
-import {OfferPostSchema, RoomCreateSchema, RoomPostSchema} from "../models";
+import {OfferPostSchema, RoomPostSchema} from "../models";
 import { validation } from "../middleware/validation";
 import {roomsRepository, offersRepository, usersRepository} from "../repository";
 import {Router, Request} from "express";
