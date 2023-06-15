@@ -1,10 +1,13 @@
 deploy:
   tags:
     - shared-fi
-  image: kroniak/ssh-client
   before_script:
     - echo "deploying app"
   script:
+    - 'which ssh-agent || ( apt-get update -y && apt-get install openssh-client git -y )'
+
+    - eval $(ssh-agent -s)
+
     - echo "$SSH_PRIVATE_KEY" | tr -d '\r' > key.pem
 
     - chmod 400 key.pem
