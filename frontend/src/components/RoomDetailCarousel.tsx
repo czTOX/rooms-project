@@ -2,15 +2,16 @@ import { FC } from 'react';
 import { Carousel } from 'react-responsive-carousel';
 
 
-const RoomDetailCarousel: FC = () => {
+const RoomDetailCarousel: FC<string> = (photosUrls: string) => {
   return (
     <Carousel showArrows={true} swipeable={true} showStatus={false} dynamicHeight={false}>
-      <div>
-        <img src="https://picsum.photos/900/600" />
-      </div>
-      <div>
-        <img src="https://picsum.photos/900/600" />
-      </div>
+      {photosUrls.split(';').map((url) => {
+        return (
+          <div>
+            <img src={url} alt={`photo-${url}`} />
+          </div>
+        )
+      })}
     </Carousel>
   );
 }

@@ -26,7 +26,7 @@ const MyBookingsPage: FC = () => {
       <div className="rooms">
         {activeBookings?.data.bookings.map((booking) => <RoomDetailView key={booking.id} {...booking} />)}
       </div>
-      <div className="bookings-history">
+      <div className="bookins-history">
         <h2 className='text-semibold'>History</h2>
         <div className="content-divider"></div>
         <div className="rooms">

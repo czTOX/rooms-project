@@ -7,7 +7,7 @@ import Moment from 'moment';
 const RoomDetailView: FC<Booking> = (props: Booking) => {
   return (
     <div className="room-view">
-      <img src="assets/room-example.jpg" alt="room" className='room-view__photo' />
+      <img src={props.room.photosUrls.split(';')[0]} alt="room" className='room-view__photo' />
       <div className="room-view-info">
         <div className="room-view-info__left">
           <h3 className="room-view__title text-bold">{props.room.caption}</h3>

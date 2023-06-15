@@ -10,6 +10,7 @@ import NewRoomPage from "./pages/NewRoomPage";
 import RegistrationPage from "./pages/RegistrationPage";
 import RoomDetailPage from "./pages/RoomDetailPage";
 import RoomsPage from "./pages/RoomsPage";
+import OfferRoom from "./pages/OfferRoom";
 
 export default function App() {
   const [logedIn, setLogedIn] = useRecoilState(logedInAtom);
@@ -24,6 +25,7 @@ export default function App() {
           <Route path="/registration" element={<RegistrationPage />} />
           <Route path="/my-bookings" element={<MyBookingsPage />} />
           <Route path="/my-rooms" element={<MyRoomsPage />} />
+          <Route path="/my-rooms/:id" element={<OfferRoom />} />
           <Route path="/rooms">
             <Route path="/rooms/:id" element={<RoomDetailPage />} />
             <Route path="/rooms/new" element={<NewRoomPage />} />

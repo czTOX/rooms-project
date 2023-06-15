@@ -13,6 +13,7 @@ import Moment from 'moment';
 import { useRecoilValue } from 'recoil';
 import { filterDatesAtom, logedInAtom } from '../state/atoms';
 import Offer from '../components/Offer';
+import { Carousel } from 'react-responsive-carousel';
 
 
 const RoomDetailPage: FC = () => {
@@ -37,7 +38,15 @@ const RoomDetailPage: FC = () => {
       </div>
       <div className="room-content">
         <div className="room-carousel">
-          <RoomDetailCarousel />
+        <Carousel showArrows={true} swipeable={true} showStatus={false} dynamicHeight={false}>
+            {room?.data.photosUrls.split(';').map((url) => {
+              return (
+                <div>
+                  <img src={url} alt={`photo-${url}`} />
+                </div>
+              )
+            })}
+          </Carousel>
         </div>
         <div className="room-info">
           <div className="room-info__basic">

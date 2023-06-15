@@ -1,9 +1,9 @@
 import { FC } from 'react';
-import RoomSimpleView from '../components/RoomSimpleView';
 import { Button } from '@mui/material';
 import { Link } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { UsersApi } from '../services';
+import MyRoomView from '../components/MyRoomView';
 
 
 const MyRoomsPage: FC = () => {
@@ -24,7 +24,7 @@ const MyRoomsPage: FC = () => {
         </Button>
       </div>
       <div className="rooms">
-        {myRooms?.data.rooms.map((room) => <RoomSimpleView key={room.id} {...room} />)}
+        {myRooms?.data.rooms.map((room) => <MyRoomView key={room.id} {...room} />)}
       </div>
     </>
   );

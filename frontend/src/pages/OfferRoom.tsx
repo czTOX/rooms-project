@@ -7,19 +7,18 @@ import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { useNavigate, useParams } from 'react-router-dom';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { BookingsApi, LocationApi, RoomsApi } from '../services';
-import { NewBooking } from '../models';
+import { NewBooking, Offer } from '../models';
 import moment from 'moment';
 import Moment from 'moment';
 import { useRecoilValue } from 'recoil';
 import { filterDatesAtom, logedInAtom } from '../state/atoms';
-import Offer from '../components/Offer';
+import { useForm } from 'react-hook-form';
 import { Carousel } from 'react-responsive-carousel';
 
 
 const RoomDetailPage: FC = () => {
   const { id } = useParams();
   const logedIn = useRecoilValue(logedInAtom);
-  const filterDates = useRecoilValue(filterDatesAtom);
   const navigate = useNavigate();
   
   const { data: room } = useQuery({
@@ -28,45 +27,36 @@ const RoomDetailPage: FC = () => {
     enabled: !!id,
   });
 
-  const { mutate: bookRoom } = useMutation({
-    mutationFn: (body: NewBooking) => BookingsApi.bookRoom(body),
+  const { mutate: offerRoom } = useMutation({
+    mutationFn: (body: Offer) => RoomsApi.offerRoom(body, id!),
     onSuccess: () => {
-      alert("Booking was successful");
-      navigate('/my-bookings');
+      alert("Offer was successful");
+      navigate('/my-rooms');
     }
   });
 
-  function tryToBookRoom() {
+  function tryToOfferRoom() {
     var body = {
-      startDate: filterDates.startDate ? filterDates.startDate.toISOString() : "",
-      endDate: filterDates.endDate ? filterDates.endDate.toISOString() : "",
-      totalPrice: totalPrice,
-      roomId: room ? room?.data.id : "",
+      startDate: startDate ? startDate.toISOString() : "",
+      endDate: endDate ? endDate.toISOString() : "",
     }
     if (logedIn) {
-      bookRoom(body);
+      offerRoom(body);
     } else {
       alert("You need to login first!")
     }
   }
 
-  const [totalPrice, setTotalPrice] = useState(0);
+  const [startDate, setStartDate] = useState<Date | null>(null);
+  const [endDate, setEndDate] = useState<Date | null>(null);
 
-  useEffect(() => {
-    if (room) {
-      const diff = Moment(filterDates.endDate).diff(Moment(filterDates.startDate));
-      const diffDuration = moment.duration(diff);
-      if(diffDuration.days() > 0) {
-        setTotalPrice(diffDuration.days() * room?.data.pricePerNight);
-      }
-    }
-  }, []);
+  const {register, handleSubmit} = useForm();
 
   return (
     <>
       <div className="header-container">
         <header>
-          <h1 className="text-semibold">{room?.data.caption}</h1>
+          <h1 className="text-semibold">Offer: {room?.data.caption}</h1>
           <div className="page-header__divider"></div>
         </header>
       </div>
@@ -88,12 +78,41 @@ const RoomDetailPage: FC = () => {
             <span className="room-info__location text-regular">{room?.data.location.city + ', ' + room?.data.location.street}</span>
             <span className="room-info__price text-regular">Price per night: <strong>{room?.data.pricePerNight} Kč</strong></span>
           </div>
-          <div className="room-info__order-summary">
-            <span className='room-info__order-summary__price text-semibold'>Final price: <strong>{totalPrice} Kč</strong></span>
-            <Button variant="contained" className='book-room__button' onClick={tryToBookRoom}>
-              Book the room
+          <form className="room-info__order-summary" onSubmit={handleSubmit(tryToOfferRoom)}>
+            <div className="filter__date">
+              <LocalizationProvider dateAdapter={AdapterDayjs}>
+                <DatePicker
+                  label="Date from:"
+                  className='filter__item'
+                  value={startDate}
+                  onChange={(newValue) => {
+                  if(newValue != null) setStartDate(new Date(newValue));
+                  }}
+                  slotProps={{
+                    textField: {
+                        required: true,
+                    },
+                  }}
+                />
+                <DatePicker
+                  label="Date to:"
+                  className='filter__item'
+                  value={endDate}
+                  onChange={(newValue) => {
+                  if(newValue != null) setEndDate(new Date(newValue));
+                  }}
+                  slotProps={{
+                    textField: {
+                        required: true,
+                    },
+                  }}
+                />
+              </LocalizationProvider>
+            </div>
+            <Button variant="contained" className='book-room__button' type='submit'>
+              Offer a room
             </Button>
-          </div>
+          </form>
         </div>
       </div>
     </>

@@ -34,10 +34,8 @@ export interface RoomOffers {
 }
 
 export interface Offer {
-    id: string;
     startDate: string;
     endDate: string;
-    roomId: string;
 }
 
 export interface MyRoomsResponse {
@@ -45,11 +43,12 @@ export interface MyRoomsResponse {
     rooms: [Room];
 }
 
-export interface NewRoom{
+export interface NewRoom {
     caption: string,
     description: string,
     pricePerNight: number,
     location: {
+        name: string,
         city: string,
         zip: string,
         street: string,
