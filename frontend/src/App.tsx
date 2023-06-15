@@ -1,5 +1,3 @@
-import { useRecoilState } from 'recoil';
-import { logedInAtom } from './state/atoms';
 import Navbar from './components/Navbar';
 import { Route, Routes } from 'react-router-dom';
 import LoginPage from './pages/LoginPage';
@@ -13,7 +11,6 @@ import OfferRoom from './pages/OfferRoom';
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
 
 export default function App() {
-  const [logedIn, setLogedIn] = useRecoilState(logedInAtom);
 
   return (
     <>
