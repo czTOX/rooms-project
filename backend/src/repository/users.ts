@@ -55,7 +55,12 @@ export const getUserWithRooms = async(id: string): Promise<Result<User | null, E
     try {
         const query = {
             where: { id: id },
-            include: {
+            select: {
+                email: true,
+                firstName: true,
+                lastName: true,
+                phoneNumber: true,
+                id: true,
                 rooms: {
                     include: {
                         location: true,
@@ -82,7 +87,12 @@ export const getUserWithBookings = async(id: string, history: boolean): Promise<
     try {
         let query =
             {
-                include: {
+                select: {
+                    email: true,
+                    firstName: true,
+                    lastName: true,
+                    phoneNumber: true,
+                    id: true,
                     bookings: {
                         where: {
                             endDate: {}
@@ -101,9 +111,9 @@ export const getUserWithBookings = async(id: string, history: boolean): Promise<
             }
 
         if (history) {
-            query.include.bookings.where.endDate = {lt: new Date()}
+            query.select.bookings.where.endDate = {lt: new Date()}
         } else {
-            query.include.bookings.where.endDate = {gte: new Date()}
+            query.select.bookings.where.endDate = {gte: new Date()}
         }
 
         const user = await prisma.user.findFirst(query);
@@ -124,7 +134,13 @@ export const getUserWithRoomsBookings = async(id: string): Promise<Result<User |
     try {
         const query = {
             where: { id: id },
-            include: {
+            select: {
+                email: true,
+                firstName: true,
+                lastName: true,
+                phoneNumber: true,
+                id: true,
+                hashedPassword: false,
                 rooms: {
                     include: {
                         location: true,
