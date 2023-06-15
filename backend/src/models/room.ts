@@ -4,7 +4,7 @@ import { LocationCreateSchema } from "./location"
 export const RoomPostSchema = z.object({
     caption: z.string({ required_error: 'Missing `caption` parameter'}).nonempty(),
     description: z.string({ required_error: 'Missing `description` parameter'}).nonempty(),
-    pricePerNight: z.number({ required_error: 'Missing `pricePerNight` parameter'}),
+    pricePerNight: z.coerce.number({ required_error: 'Missing `pricePerNight` parameter'}),
     location: z.union([
         z.object({
             locationId: z.string({ required_error: 'Missing `locationId` parameter'}).nonempty(),

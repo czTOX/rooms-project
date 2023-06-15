@@ -58,7 +58,10 @@ export const getAll = async(args: Dict<any>): Promise<Result<Room[], Error>> => 
                 pricePerNight: {
                     lte: args.maxPrice != null ? parseFloat(args.maxPrice) : undefined,
                     gte: args.minPrice != null ? parseFloat(args.minPrice) : undefined,
-                }
+                },
+                caption: {
+
+                },
             },
             include:
                 {
@@ -82,7 +85,10 @@ export const getAll = async(args: Dict<any>): Promise<Result<Room[], Error>> => 
         }
         if (args.startDate && args.endDate) {
             query.where.offers!.some = {startDate: {lte: args.startDate}, endDate: {gte: args.endDate}}
-            query.where.bookings!.none = {startDate: {gte: args.startDate}, endDate: {lte: args.endDate}}
+            query.where.bookings!.none = {startDate: {lte: args.endDate}, endDate: {gte: args.startDate}}
+        }
+        if (args.search != null) {
+            query.where.caption = {contains: args.search};
         }
 
         const rooms = await prisma.room.findMany(query);
