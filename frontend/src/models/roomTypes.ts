@@ -16,6 +16,30 @@ export interface Room {
     }
 };
 
+export interface RoomOffers {
+    id: string;
+    caption: string;
+    description: string;
+    pricePerNight: number;
+    photosUrls: string;
+    location: {
+        id: string;
+        name: string;
+        city: string;
+        zip: string;
+        street: string;
+        country: string;
+    },
+    offers: [Offer]
+}
+
+export interface Offer {
+    id: string;
+    startDate: string;
+    endDate: string;
+    roomId: string;
+}
+
 export interface MyRoomsResponse {
     id: string;
     rooms: [Room];

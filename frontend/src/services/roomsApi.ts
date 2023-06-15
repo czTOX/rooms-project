@@ -1,4 +1,4 @@
-import { Room, NewRoom, ResponseMulti, ResponseSingle, Filter } from "../models";
+import { Room, NewRoom, ResponseMulti, ResponseSingle, Filter, Booking, BookingResponse, RoomOffers } from "../models";
 import axiosInstance from "./base";
 
 
@@ -27,5 +27,10 @@ export const createRoom = async (content: NewRoom): Promise<ResponseSingle<Room>
         formData.append("images", image);
     }
     const response = await axiosInstance.post('/rooms', formData);
+    return response.data;
+}
+
+export const getRoomOffers = async (roomId: string): Promise<ResponseSingle<RoomOffers>> => {
+    const response = await axiosInstance.get(`/rooms/${roomId}/offers`);
     return response.data;
 }

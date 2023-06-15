@@ -27,40 +27,6 @@ const RoomDetailPage: FC = () => {
     enabled: !!id,
   });
 
-  const { mutate: bookRoom } = useMutation({
-    mutationFn: (body: NewBooking) => BookingsApi.bookRoom(body),
-    onSuccess: () => {
-      alert("Booking was successful");
-      navigate('/my-bookings');
-    }
-  });
-
-  function tryToBookRoom() {
-    var body = {
-      startDate: filterDates.startDate ? filterDates.startDate.toISOString() : "",
-      endDate: filterDates.endDate ? filterDates.endDate.toISOString() : "",
-      totalPrice: totalPrice,
-      roomId: room ? room?.data.id : "",
-    }
-    if (logedIn) {
-      bookRoom(body);
-    } else {
-      alert("You need to login first!")
-    }
-  }
-
-  const [totalPrice, setTotalPrice] = useState(0);
-
-  useEffect(() => {
-    if (filterDates.endDate && room) {
-      const diff = Moment(filterDates.endDate).diff(Moment(filterDates.startDate));
-      const diffDuration = moment.duration(diff);
-      if(diffDuration.days() > 0) {
-        setTotalPrice(diffDuration.days() * room?.data.pricePerNight);
-      }
-    }
-  }, []);
-
   return (
     <>
       <div className="header-container">
@@ -76,16 +42,13 @@ const RoomDetailPage: FC = () => {
         <div className="room-info">
           <div className="room-info__basic">
             <span className="room-info__desc text-regular">{room?.data.description}</span>
-            <span className="room-info__location text-regular">{room?.data.location.city + ', ' + room?.data.location.street}</span>
+            <span className="room-info__location text-regular">{room?.data.location.city  + ', ' + room?.data.location.street}</span>
             <span className="room-info__price text-regular">Price per night: <strong>{room?.data.pricePerNight} Kč</strong></span>
           </div>
-          <div className="room-info__order-summary">
-            <span className='room-info__order-summary__price text-semibold'>Final price: <strong>{totalPrice} Kč</strong></span>
-            <Button variant="contained" className='book-room__button' onClick={tryToBookRoom}>
-              Book the room
-            </Button>
-          </div>
         </div>
+      </div>
+      <div className="room-offers">
+        {room?.data.offers.map((offer, index) => <Offer key={`offer-${index}`} {...offer} />)}
       </div>
     </>
   );

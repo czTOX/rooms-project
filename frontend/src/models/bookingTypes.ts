@@ -33,5 +33,4 @@ export interface NewBooking {
     endDate: string;
     totalPrice: number;
     roomId: string;
-    images: string;
 }

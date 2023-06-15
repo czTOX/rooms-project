@@ -12,8 +12,6 @@ const MyRoomsPage: FC = () => {
     queryFn: () => UsersApi.getMyRooms(),
   });
 
-  console.log(myRooms)
-
   return (
     <>
       <div className="header-container">
