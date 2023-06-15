@@ -1,6 +1,6 @@
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime";
 import { Result } from '@badrap/result';
-import {Location, LocationCreate, Room, RoomCreate} from "../models";
+import {Location, LocationCreate} from "../models";
 import prisma from "../client";
 
 

@@ -1,11 +1,8 @@
 import { resultOk, resultError } from '../middleware/resultHandler';
-import {BookingPostSchema,  BookingCreate} from "../models";
+import {BookingPostSchema} from "../models";
 import { validation } from "../middleware/validation";
-import {usersRepository, bookingsRepository} from "../repository";
-import {Router, Request} from "express";
-import {getUserWithRoomsBookings} from "../repository/users";
-import {getSingleById} from "../repository/bookings";
-import {bookingsController} from "./index";
+import {usersRepository, bookingsRepository, roomsRepository} from "../repository";
+import {Router} from "express";
 
 const bookingsRouter = Router();
 
@@ -73,9 +70,24 @@ bookingsRouter.post("/", validation({body: BookingPostSchema}),async (req, res) 
         }
     }
 
+    const room = await roomsRepository.getSingleById(req.body.roomId);
+    if (room.isErr) {
+        return resultError(500, res, room.error.message);
+    }
+    if (room.value == null) {
+        return resultError(500, res, 'Cant find the room');
+    }
+    const pricePerNight = room.value.pricePerNight
+    const diff = Math.abs(req.body.startDate.getTime() - req.body.endDate.getTime());
+    const diffDays = Math.ceil(diff / (1000 * 3600 * 24));
+    if (diffDays * pricePerNight > req.body.totalPrice) {
+        req.body.totalPrice = diffDays * pricePerNight;
+    }
+
     const booking = await bookingsRepository.createSingle(
         {...req.body, userId: user.value!.id}
     );
+
     if (booking.isErr) {
         return resultError(500, res, booking.error.message);
     }

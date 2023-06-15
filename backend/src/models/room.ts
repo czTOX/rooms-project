@@ -24,6 +24,5 @@ export const RoomSchema = z.object({
     locationId: z.string({ required_error: 'Missing `photosUrls` parameter'}).nonempty(),
 }).merge(RoomCreateSchema).omit({location: true});
 
-export type RoomPost = z.infer<typeof RoomPostSchema>
 export type RoomCreate = z.infer<typeof RoomCreateSchema>;
 export type Room = z.infer<typeof RoomSchema>;
