@@ -9,8 +9,14 @@ deploy:
 
     - eval $(ssh-agent -s)
 
-    - echo "$SSH_PRIVATE_KEY" | tr -d '\r' > key.pem
+    - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add -
+    - mkdir -p ~/.ssh
+    - chmod 700 ~/.ssh
+    - ssh-keyscan rooms.cloudns.nz >> ~/.ssh/known_hosts
+    - chmod 644 ~/.ssh/known_hosts
+
+
 
     - chmod 400 key.pem
-    - ssh -o StrictHostKeyChecking=no -i key.pem $PROD_SERVER_USER@$PROD_SERVER_ADDRESS "cd rooms && git pull && docker compose up --build --remove-orphans"
+    - ssh -o StrictHostKeyChecking=no $PROD_SERVER_USER@$PROD_SERVER_ADDRESS "cd rooms && git pull && docker compose up --build --remove-orphans"
 
