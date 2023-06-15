@@ -3,14 +3,14 @@ import {UserSchema} from "./user";
 import {RoomSchema} from "./room";
 
 export const BookingPostSchema = z.object({
-    startDate: z.coerce.date(),
-    endDate: z.coerce.date(),
-    totalPrice: z.number(),
-    roomId: z.string(),
+    startDate: z.coerce.date({ required_error: 'Missing `startDate` parameter'}),
+    endDate: z.coerce.date({ required_error: 'Missing `endDate` parameter'}),
+    totalPrice: z.number({ required_error: 'Missing `totalPrice` parameter'}),
+    roomId: z.string({ required_error: 'Missing `roomId` parameter'}).nonempty(),
 })
 
 export const BookingCreateSchema = z.object({
-    userId: z.string(),
+    userId: z.string({ required_error: 'Missing `userId` parameter'}).nonempty(),
 }).merge(BookingPostSchema)
 
 export const BookingSchema = z.object({
