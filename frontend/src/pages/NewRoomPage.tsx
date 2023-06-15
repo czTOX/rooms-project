@@ -12,7 +12,7 @@ const NewRoomPage: FC = () => {
     mutationFn: (body: NewRoom) => RoomsApi.createRoom(body),
     onSuccess: (res) => {
       console.log('New room created!');
-      navigate(`/rooms/${res.data.id}`);
+      navigate(`/my-rooms/${res.data.id}`);
     }
   });
 
